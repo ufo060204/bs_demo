@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>診所列表</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<style>
+  .clinic-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+  }
+
+  .map-container {
+    height: 400px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+  }
+</style>
+<body>
+  <!-- 導航欄 -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">健康樹醫療平台</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">關於我們</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">醫療資訊</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              地區診所
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="clinic_taipei.html">台北</a></li>
+              <li><a class="dropdown-item" href="#">桃園</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#">苗栗</a></li>
+              <li><a class="dropdown-item" href="clinic_taichung.html">台中</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#">台南</a></li>
+              <li><a class="dropdown-item" href="clinic_kaohsiung.html">高雄</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"></li>
+          <a class="nav-link" href="#">聯絡我們</a>
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 主要內容 -->
+  <div class="container mt-4">
+    <h1 class="mb-4">台中診所列表</h1>
+  
+    <!-- 搜索和過濾 -->
+    <div class="row mb-4">
+      <div class="col-md-6 mb-3">
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="搜索診所名稱或地址" aria-label="Search">
+          <button class="btn btn-outline-primary" type="submit">搜索</button>
+        </form>
+      </div>
+      <div class="col-md-3 mb-3">
+        <select class="form-select" aria-label="選擇診所類型">
+          <option selected>所有類型</option>
+          <option value="1">家庭醫學科</option>
+          <option value="2">內科</option>
+          <option value="3">小兒科</option>
+          <option value="4">婦產科</option>
+          <option value="5">骨科</option>
+        </select>
+      </div>
+      <div class="col-md-3 mb-3">
+        <select class="form-select" aria-label="選擇行政區">
+          <option selected>所有區域</option>
+          <option value="1">西屯區</option>
+          <option value="2">北區</option>
+          <option value="3">南區</option>
+          <option value="4">西區</option>
+          <option value="5">東區</option>
+        </select>
+      </div>
+    </div>
+  
+    <!-- 地圖和列表切換 -->
+    <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="list-tab" data-bs-toggle="tab" data-bs-target="#list" type="button" role="tab"
+          aria-controls="list" aria-selected="true">列表視圖</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="map-tab" data-bs-toggle="tab" data-bs-target="#map" type="button" role="tab"
+          aria-controls="map" aria-selected="false">地圖視圖</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="list" role="tabpanel" aria-labelledby="list-tab">
+        <!-- 診所列表 -->
+        <div class="row">
+          <!-- 診所1 -->
+          <div class="col-md-6 mb-4">
+            <div class="card clinic-card">
+              <div class="card-body">
+                <h5 class="card-title">康健家醫診所</h5>
+                <h6 class="card-subtitle mb-2 text-muted">家庭醫學科</h6>
+                <p class="card-text">
+                  <i class="bi bi-geo-alt"></i> 台中市西屯區福星路427號<br>
+                  <i class="bi bi-telephone"></i> (04) 2451-xxxx<br>
+                  <i class="bi bi-clock"></i> 週一至週五: 09:00-18:00, 週六: 09:00-13:00
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <span class="badge bg-primary me-1">可預約</span>
+                    <span class="badge bg-success">接受健保</span>
+                  </div>
+                  <div>
+                    <a href="#" class="btn btn-primary btn-sm">預約看診</a>
+                    <a href="clinic_taichung_01.html" class="btn btn-outline-secondary btn-sm">查看詳情</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- 診所2 -->
+          <div class="col-md-6 mb-4">
+            <div class="card clinic-card">
+              <div class="card-body">
+                <h5 class="card-title">仁心內科診所</h5>
+                <h6 class="card-subtitle mb-2 text-muted">內科</h6>
+                <p class="card-text">
+                  <i class="bi bi-geo-alt"></i> 台中市北區三民路三段201號<br>
+                  <i class="bi bi-telephone"></i> (04) 2223-xxxx<br>
+                  <i class="bi bi-clock"></i> 週一至週五: 08:30-17:30, 週六: 08:30-12:00
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <span class="badge bg-primary me-1">可預約</span>
+                    <span class="badge bg-success">接受健保</span>
+                  </div>
+                  <div>
+                    <a href="#" class="btn btn-primary btn-sm">預約看診</a>
+                    <a href="#" class="btn btn-outline-secondary btn-sm">查看詳情</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- 可以繼續添加更多診所 -->
+  
+        </div>
+      </div>
+      <div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab">
+        <!-- 地圖視圖 -->
+        <div class="map-container">
+          <!-- 這裡可以嵌入實際的地圖，例如 Google Maps -->
+          <p class="text-center pt-5">此處將顯示診所在台中市的位置地圖</p>
+        </div>
+      </div>
+    </div>
+  
+    <!-- 分頁 -->
+    <nav aria-label="Page navigation example" class="mt-4">
+      <ul class="pagination justify-content-center">
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1" aria-disabled="true">上一頁</a>
+        </li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#">下一頁</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- 頁腳 -->
+  <footer class="bg-light py-4 mt-5">
+    <div class="container text-center">
+      <p>&copy; 2024 健康樹醫療平台. 版權所有.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

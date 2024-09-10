@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>首頁</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+  <!-- 導航欄 -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">健康樹醫療平台</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">關於我們</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">醫療資訊</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              地區診所
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="clinic_taipei.html">台北</a></li>
+              <li><a class="dropdown-item" href="#">桃園</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#">苗栗</a></li>
+              <li><a class="dropdown-item" href="clinic_taichung.html">台中</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#">台南</a></li>
+              <li><a class="dropdown-item" href="clinic_kaohsiung.html">高雄</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"></li>
+          <a class="nav-link" href="contact.html">聯絡我們</a>
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 主要內容 -->
+  <!-- 頂部橫幅 -->
+  <div class="jumbotron text-center">
+    <h1 class="display-4">歡迎來到健康樹醫療平台</h1>
+    <p class="lead">您的健康，我們的使命</p>
+    <a class="btn btn-primary btn-lg" href="#" role="button">立即預約</a>
+  </div>
+  
+  <!-- 服務介紹 -->
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">我們的服務</h2>
+    <div class="row">
+      <div class="col-md-4 text-center mb-4">
+        <div class="service-icon">🏥</div>
+        <h3>診所查詢</h3>
+        <p>快速找到您附近的優質診所，輕鬆預約看診。</p>
+      </div>
+      <div class="col-md-4 text-center mb-4">
+        <div class="service-icon">📅</div>
+        <h3>線上預約</h3>
+        <p>24小時隨時可預約，省時省力。</p>
+      </div>
+      <div class="col-md-4 text-center mb-4">
+        <div class="service-icon">💊</div>
+        <h3>健康資訊</h3>
+        <p>提供最新、最可靠的健康資訊和醫療知識。</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 最新消息 -->
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">最新消息</h2>
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="/api/placeholder/400/200" class="card-img-top" alt="新聞圖片">
+          <div class="card-body">
+            <h5 class="card-title">流感疫苗開始施打</h5>
+            <p class="card-text">秋冬季節即將來臨，流感疫苗施打計畫已經展開，請民眾儘快預約接種。</p>
+            <a href="#" class="btn btn-primary">閱讀更多</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="/api/placeholder/400/200" class="card-img-top" alt="新聞圖片">
+          <div class="card-body">
+            <h5 class="card-title">新冠疫情最新資訊</h5>
+            <p class="card-text">最新的防疫指南和疫情資訊，請大家持續保持警惕，做好個人防護。</p>
+            <a href="#" class="btn btn-primary">閱讀更多</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="/api/placeholder/400/200" class="card-img-top" alt="新聞圖片">
+          <div class="card-body">
+            <h5 class="card-title">健康飲食講座</h5>
+            <p class="card-text">即將舉辦健康飲食講座，邀請知名營養師分享如何通過飲食提升免疫力。</p>
+            <a href="#" class="btn btn-primary">閱讀更多</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 快速連結 -->
+  <div class="bg-light py-5 mt-5">
+    <div class="container">
+      <h2 class="text-center mb-4">快速連結</h2>
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <a href="#" class="btn btn-outline-primary w-100">查找診所</a>
+        </div>
+        <div class="col-md-3 mb-3">
+          <a href="#" class="btn btn-outline-primary w-100">健康資訊</a>
+        </div>
+        <div class="col-md-3 mb-3">
+          <a href="#" class="btn btn-outline-primary w-100">醫療保險</a>
+        </div>
+        <div class="col-md-3 mb-3">
+          <a href="#" class="btn btn-outline-primary w-100">聯絡我們</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 頁腳 -->
+  <footer class="bg-dark text-light py-4 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>健康樹醫療平台</h5>
+          <p>提供最優質的醫療資源和健康資訊</p>
+        </div>
+        <div class="col-md-3">
+          <h5>快速連結</h5>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-light">關於我們</a></li>
+            <li><a href="#" class="text-light">服務條款</a></li>
+            <li><a href="#" class="text-light">隱私政策</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5>聯絡我們</h5>
+          <p>電話：(02) 1234-5678<br>
+            電子郵件：info@healthmedical.tw</p>
+        </div>
+      </div>
+      <hr>
+      <div class="text-center">
+        <p>&copy; 2024 健康樹醫療平台. 版權所有.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

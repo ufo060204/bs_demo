@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>診所列表</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<style>
+  :root {
+    --primary-color: #FFA500;
+    --secondary-color: #FFD700;
+  }
+
+  body {
+    background-color: #FFFAF0;
+  }
+
+  .navbar {
+    background-color: var(--primary-color) !important;
+  }
+
+  .navbar-light .navbar-nav .nav-link {
+    color: white;
+  }
+
+  .clinic-header {
+    background-image: linear-gradient(rgba(255, 165, 0, 0.7), rgba(255, 215, 0, 0.7)), url('/api/placeholder/1200/400');
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+  }
+
+  .doctor-card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .doctor-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .doctor-card img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--primary-color);
+  }
+
+  .service-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+  }
+
+  .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  .btn-primary:hover {
+    background-color: #FF8C00;
+    border-color: #FF8C00;
+  }
+
+  .card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+</style>
+<body>
+  <!-- 導航欄 -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">健康樹醫療平台</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">關於我們</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">醫療資訊</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              地區診所
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="clinic_taipei.html">台北</a></li>
+              <li><a class="dropdown-item" href="#">桃園</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#">苗栗</a></li>
+              <li><a class="dropdown-item" href="clinic_taichung.html">台中</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#">台南</a></li>
+              <li><a class="dropdown-item" href="clinic_kaohsiung.html">高雄</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"></li>
+          <a class="nav-link" href="#">聯絡我們</a>
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 高雄特色橫幅 -->
+  <div class="banner mb-4">
+    <h1 class="display-4">探索高雄優質診所</h1>
+  </div>
+  
+  <!-- 診所頭部 -->
+  <header class="clinic-header mb-5">
+    <div class="container">
+      <h1 class="display-3">陽光家醫診所</h1>
+      <p class="lead">用溫暖的陽光守護您全家的健康</p>
+      <a href="#" class="btn btn-light btn-lg mt-3">立即預約</a>
+    </div>
+  </header>
+  
+  <!-- 主要內容 -->
+  <div class="container mt-5">
+    <!-- 關於我們 -->
+    <section id="about" class="mb-5">
+      <h2 class="text-center mb-4">關於陽光家醫診所</h2>
+      <div class="row">
+        <div class="col-lg-6">
+          <p>陽光家醫診所成立於2018年，我們的使命是為社區居民提供高品質、全面的家庭醫療服務。我們相信，就像陽光能夠滋養萬物一樣，優質的醫療照護能夠為每個家庭帶來健康和幸福。</p>
+          <p>我們的團隊由經驗豐富的家庭醫學科醫生、護理人員和健康管理專家組成，致力於提供以病人為中心的個人化醫療服務。無論是日常保健、疾病預防還是慢性病管理，我們都將為您提供最貼心的照顧。</p>
+        </div>
+        <div class="col-lg-6">
+          <img src="/api/placeholder/600/400" alt="診所內部" class="img-fluid rounded">
+        </div>
+      </div>
+    </section>
+  
+    <!-- 服務項目 -->
+    <section id="services" class="mb-5">
+      <h2 class="text-center mb-4">我們的服務</h2>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 text-center">
+            <div class="card-body">
+              <i class="bi bi-heart-pulse service-icon mb-3"></i>
+              <h5 class="card-title">家庭醫學</h5>
+              <p class="card-text">提供全面的家庭健康照護，包括成人和兒童的一般診療。</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 text-center">
+            <div class="card-body">
+              <i class="bi bi-graph-up service-icon mb-3"></i>
+              <h5 class="card-title">慢性病管理</h5>
+              <p class="card-text">專業的糖尿病、高血壓等慢性病監測和治療計劃。</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 text-center">
+            <div class="card-body">
+              <i class="bi bi-shield-check service-icon mb-3"></i>
+              <h5 class="card-title">預防接種</h5>
+              <p class="card-text">提供各年齡段所需的疫苗接種服務，保護您和家人的健康。</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 text-center">
+            <div class="card-body">
+              <i class="bi bi-hospital service-icon mb-3"></i>
+              <h5 class="card-title">健康檢查</h5>
+              <p class="card-text">全面的體檢服務，早期發現潛在健康問題。</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 text-center">
+            <div class="card-body">
+              <i class="bi bi-house-heart service-icon mb-3"></i>
+              <h5 class="card-title">居家醫療</h5>
+              <p class="card-text">為行動不便的患者提供上門診療服務。</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 text-center">
+            <div class="card-body">
+              <i class="bi bi-journal-medical service-icon mb-3"></i>
+              <h5 class="card-title">健康教育</h5>
+              <p class="card-text">定期舉辦健康講座，提供最新的醫療保健知識。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- 醫師團隊 -->
+    <section id="doctors" class="mb-5">
+      <h2 class="text-center mb-4">我們的醫師團隊</h2>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card doctor-card text-center">
+            <div class="card-body">
+              <img src="/api/placeholder/150/150" alt="陳醫師" class="mb-3">
+              <h5 class="card-title">陳醫師</h5>
+              <p class="card-text">家庭醫學科主治醫師<br>專長：全科醫療、慢性病管理</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card doctor-card text-center">
+            <div class="card-body">
+              <img src="/api/placeholder/150/150" alt="林醫師" class="mb-3">
+              <h5 class="card-title">林醫師</h5>
+              <p class="card-text">兒科專科醫師<br>專長：兒童保健、疫苗接種</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card doctor-card text-center">
+            <div class="card-body">
+              <img src="/api/placeholder/150/150" alt="王醫師" class="mb-3">
+              <h5 class="card-title">王醫師</h5>
+              <p class="card-text">家庭醫學科醫師<br>專長：老年醫學、居家照護</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- 病患評價 -->
+    <section class="mb-5">
+      <h2 class="text-center mb-4">病患評價</h2>
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">張小姐</h5>
+              <p class="card-text">陳醫師非常親切，解釋得很詳細。整個診所的氛圍都很溫暖，讓人感到很放心。</p>
+              <p class="card-text"><small class="text-muted">評價日期：2024-06-15</small></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">李先生</h5>
+              <p class="card-text">林醫師對孩子很有耐心，診所的兒童遊戲區設計得很棒，孩子看診不再害怕了。</p>
+              <p class="card-text"><small class="text-muted">評價日期：2024-05-30</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- 聯絡我們 -->
+    <section id="contact" class="mb-5">
+      <h2 class="text-center mb-4">聯絡我們</h2>
+      <div class="row">
+        <div class="col-lg-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">診所資訊</h5>
+              <p><i class="bi bi-geo-alt"></i> 高雄市鳳山區光遠路226號</p>
+              <p><i class="bi bi-telephone"></i> (07) 7432-xxxx</p>
+              <p><i class="bi bi-clock"></i> 週一至週五: 08:30-21:00<br>週六: 08:30-17:00<br>週日: 09:00-12:00</p>
+              <a href="#" class="btn btn-primary">預約看診</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">地圖位置</h5>
+              <!-- 這裡可以嵌入實際的Google地圖 -->
+              <div
+                style="width: 100%; height: 300px; background-color: #eee; display: flex; align-items: center; justify-content: center;">
+                地圖位置
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 頁腳 -->
+  <footer class="bg-light py-4 mt-5">
+    <div class="container text-center">
+      <p>&copy; 2024 健康樹醫療平台. 版權所有.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
