@@ -93,6 +93,16 @@
     border: none;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
+
+  /* 麵包屑樣式 */
+  .breadcrumb {
+    background-color: transparent;
+    padding: 10px 0;
+  }
+
+  .breadcrumb-item+.breadcrumb-item::before {
+    content: ">";
+  }
 </style>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -135,7 +145,7 @@
             </ul>
           </li>
           <li class="nav-item"></li>
-          <a class="nav-link" href="#">聯絡我們</a>
+          <a class="nav-link" href="contact.html">聯絡我們</a>
           </li>
         </ul>
         <form class="d-flex" role="search">
@@ -146,9 +156,15 @@
     </div>
   </nav>
 
-  <!-- 高雄特色橫幅 -->
-  <div class="banner mb-4">
-    <h1 class="display-4">探索高雄優質診所</h1>
+  <!-- 麵包屑導航 -->
+  <div class="container mt-3">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">首頁</a></li>
+        <li class="breadcrumb-item"><a href="#">診所列表</a></li>
+        <li class="breadcrumb-item active" aria-current="page">陽光家醫診所</li>
+      </ol>
+    </nav>
   </div>
   
   <!-- 診所頭部 -->
@@ -207,33 +223,6 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-4">
-          <div class="card h-100 text-center">
-            <div class="card-body">
-              <i class="bi bi-hospital service-icon mb-3"></i>
-              <h5 class="card-title">健康檢查</h5>
-              <p class="card-text">全面的體檢服務，早期發現潛在健康問題。</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card h-100 text-center">
-            <div class="card-body">
-              <i class="bi bi-house-heart service-icon mb-3"></i>
-              <h5 class="card-title">居家醫療</h5>
-              <p class="card-text">為行動不便的患者提供上門診療服務。</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card h-100 text-center">
-            <div class="card-body">
-              <i class="bi bi-journal-medical service-icon mb-3"></i>
-              <h5 class="card-title">健康教育</h5>
-              <p class="card-text">定期舉辦健康講座，提供最新的醫療保健知識。</p>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   
@@ -265,31 +254,6 @@
               <img src="/api/placeholder/150/150" alt="王醫師" class="mb-3">
               <h5 class="card-title">王醫師</h5>
               <p class="card-text">家庭醫學科醫師<br>專長：老年醫學、居家照護</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  
-    <!-- 病患評價 -->
-    <section class="mb-5">
-      <h2 class="text-center mb-4">病患評價</h2>
-      <div class="row">
-        <div class="col-md-6 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">張小姐</h5>
-              <p class="card-text">陳醫師非常親切，解釋得很詳細。整個診所的氛圍都很溫暖，讓人感到很放心。</p>
-              <p class="card-text"><small class="text-muted">評價日期：2024-06-15</small></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">李先生</h5>
-              <p class="card-text">林醫師對孩子很有耐心，診所的兒童遊戲區設計得很棒，孩子看診不再害怕了。</p>
-              <p class="card-text"><small class="text-muted">評價日期：2024-05-30</small></p>
             </div>
           </div>
         </div>
