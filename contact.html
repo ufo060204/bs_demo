@@ -192,6 +192,14 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
   <script>
+    function dataLayerPush () {
+      window.dataLayer = window.dataLayer || [];
+        dataLayer.push({
+          'event': 'WebFormSubmit',
+          'form_type': 'contact-us',
+          'form_location': 'Maldive-tour-page'
+        });
+    }
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.getElementById('contactForm');
       const formResponse = document.getElementById('formResponse');
@@ -223,6 +231,7 @@
                                   </div>
                               `;
               form.reset(); // 重置表單
+              dataLayerPush();
             }, 1000); // 延遲1秒顯示結果，模擬網絡請求
           })
           .catch(error => {
