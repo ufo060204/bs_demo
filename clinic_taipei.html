@@ -27,9 +27,16 @@
   </script>
 </head>
 <style>
-  .card-clinic:nth-child(2) .card {
+  .card-clinic:nth-child(2) {
+    color: green;
+  }
+  .card-clinic:hover {
     background-color: skyblue;
   }
+  a {
+    text-decoration: none;
+  }
+
 </style>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -111,7 +118,7 @@
     <div class="row">
       <!-- 診所1 -->
       <div class="col-md-6 mb-4">
-        <a href="#" class="card card-clinic">
+        <a href="clinic_taipei_01.html" pid="1" title="健康家庭診所" class="card card-clinic">
           <div class="card-body">
             <h5 class="card-title">健康家庭診所</h5>
             <h6 class="card-subtitle mb-2 text-muted">家庭醫學科</h6>
@@ -120,15 +127,15 @@
               <i class="bi bi-telephone"></i> (02) 2345-6789<br>
               <i class="bi bi-clock"></i> 週一至週五: 09:00-18:00, 週六: 09:00-13:00
             </p>
-            <a href="#" class="btn btn-primary">預約看診</a>
-            <a data-clinic="taipei_01" href="clinic_taipei_01.html" class="btn btn-outline-secondary">查看詳情</a>
+            <!-- <a href="#" class="btn btn-primary">預約看診</a> -->
+            <button data-clinic="taipei_01" class="btn btn-outline-secondary">查看詳情</button>
           </div>
         </a>
       </div>
   
       <!-- 診所2 -->
-      <div class="col-md-6 mb-4 card-clinic">
-        <a href="#" class="card card-clinic">
+      <div class="col-md-6 mb-4">
+        <a href="#" pid="2" title="仁心內科診所" class="card card-clinic">
           <div class="card-body">
             <h5 class="card-title">仁心內科診所</h5>
             <h6 class="card-subtitle mb-2 text-muted">內科</h6>
@@ -137,15 +144,15 @@
               <i class="bi bi-telephone"></i> (02) 3456-7890<br>
               <i class="bi bi-clock"></i> 週一至週五: 08:30-17:30, 週六: 08:30-12:00
             </p>
-            <a href="#" class="btn btn-primary">預約看診</a>
-            <a href="#" class="btn btn-outline-secondary">查看詳情</a>
+            <!-- <a href="#" class="btn btn-primary">預約看診</a> -->
+            <button class="btn btn-outline-secondary">查看詳情</button>
           </div>
         </a>
       </div>
   
       <!-- 診所3 -->
-      <div class="col-md-6 mb-4 card-clinic">
-        <a href="#" class="card card-clinic">
+      <div class="col-md-6 mb-4">
+        <a href="#" pid="3" title="陽光兒童診所" class="card card-clinic">
           <div class="card-body">
             <h5 class="card-title">陽光兒童診所</h5>
             <h6 class="card-subtitle mb-2 text-muted">小兒科</h6>
@@ -154,15 +161,15 @@
               <i class="bi bi-telephone"></i> (02) 4567-8901<br>
               <i class="bi bi-clock"></i> 週一至週五: 09:30-18:30, 週六: 09:30-13:30
             </p>
-            <a href="#" class="btn btn-primary">預約看診</a>
-            <a href="#" class="btn btn-outline-secondary">查看詳情</a>
+            <!-- <a href="#" class="btn btn-primary">預約看診</a> -->
+            <button class="btn btn-outline-secondary">查看詳情</button>
           </div>
         </a>
       </div>
   
       <!-- 診所4 -->
-      <div class="col-md-6 mb-4 card-clinic">
-        <a href="#" class="card card-clinic">
+      <div class="col-md-6 mb-4">
+        <a href="#" pid="4" title="安康骨科診所" class="card card-clinic">
           <div class="card-body">
             <h5 class="card-title">安康骨科診所</h5>
             <h6 class="card-subtitle mb-2 text-muted">骨科</h6>
@@ -171,8 +178,42 @@
               <i class="bi bi-telephone"></i> (02) 5678-9012<br>
               <i class="bi bi-clock"></i> 週一至週五: 10:00-19:00, 週六: 10:00-14:00
             </p>
-            <a href="#" class="btn btn-primary">預約看診</a>
-            <a href="#" class="btn btn-outline-secondary">查看詳情</a>
+            <!-- <a href="#" class="btn btn-primary">預約看診</a> -->
+            <button class="btn btn-outline-secondary">查看詳情</button>
+          </div>
+        </a>
+      </div>
+
+      <!-- 診所5 -->
+      <div class="col-md-6 mb-4">
+        <a href="#" pid="5" title="阿明骨科診所" class="card card-clinic">
+          <div class="card-body">
+            <h5 class="card-title">阿明骨科診所</h5>
+            <h6 class="card-subtitle mb-2 text-muted">骨科</h6>
+            <p class="card-text">
+              <i class="bi bi-geo-alt"></i> 台北市信義區忠孝東路五段420號<br>
+              <i class="bi bi-telephone"></i> (02) 5678-9012<br>
+              <i class="bi bi-clock"></i> 週一至週五: 10:00-19:00, 週六: 10:00-14:00
+            </p>
+            <!-- <a href="#" class="btn btn-primary">預約看診</a> -->
+            <button class="btn btn-outline-secondary">查看詳情</button>
+          </div>
+        </a>
+      </div>
+
+      <!-- 診所6 -->
+      <div class="col-md-6 mb-4">
+        <a href="#" pid="6" title="天天眼科診所" class="card card-clinic">
+          <div class="card-body">
+            <h5 class="card-title">天天眼科診所</h5>
+            <h6 class="card-subtitle mb-2 text-muted">骨科</h6>
+            <p class="card-text">
+              <i class="bi bi-geo-alt"></i> 台北市信義區忠孝東路五段420號<br>
+              <i class="bi bi-telephone"></i> (02) 5678-9012<br>
+              <i class="bi bi-clock"></i> 週一至週五: 10:00-19:00, 週六: 10:00-14:00
+            </p>
+            <!-- <a href="#" class="btn btn-primary">預約看診</a> -->
+            <button class="btn btn-outline-secondary">查看詳情</button>
           </div>
         </a>
       </div>
