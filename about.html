@@ -26,6 +26,22 @@
     gtag('config', 'G-W3PMKQD1NS');
   </script>
 </head>
+<style>
+  .about__menu {
+    list-style-type: none;
+  }
+  .about__list {
+    position: relative;
+  }
+  .about__list::after {
+    /* content: '‧'; */
+    content: '•';
+    position: absolute;
+    left: -14px;
+    top: 0;
+    font-size: 16px;
+  }
+</style>
 <body>
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WZQ9J3N3" height="0" width="0"
@@ -96,11 +112,11 @@
     <!-- 我們的價值觀 -->
     <section class="mb-5">
       <h2>我們的價值觀</h2>
-      <ul>
-        <li>以患者為中心：我們所做的一切都以改善患者體驗為出發點。</li>
-        <li>誠信透明：我們提供真實、可靠的信息，讓用戶做出明智的醫療決策。</li>
-        <li>創新驅動：我們不斷探索新技術，以提升服務品質和用戶體驗。</li>
-        <li>合作共贏：我們與醫療機構緊密合作，共同推動醫療服務的進步。</li>
+      <ul class="about__menu">
+        <li class="about__list">以患者為中心：我們所做的一切都以改善患者體驗為出發點。</li>
+        <li class="about__list">誠信透明：我們提供真實、可靠的信息，讓用戶做出明智的醫療決策。</li>
+        <li class="about__list">創新驅動：我們不斷探索新技術，以提升服務品質和用戶體驗。</li>
+        <li class="about__list">合作共贏：我們與醫療機構緊密合作，共同推動醫療服務的進步。</li>
       </ul>
     </section>
   
