@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="./src/styles.css">
+</head>
+<body>
+  <div class="container mx-auto 2xl:px-0 px-4">
+    <section id="videoSwiperSection" class="video-swiper__section">
+      <!-- 左側導航按鈕 -->
+      <button type="button" class="video-swiper-button-prev">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="#4b97b9" stroke="none"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-play">
+          <circle cx="12" cy="12" r="10" />
+          <polygon points="15 7 7 12 15 17 15 7" fill="#fff" />
+        </svg>
+      </button>
+      <!-- 影片輪播 -->
+      <div class="swiper video-swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="video-swiper__card" title="" data-video-id="hdQa6RIHKII">
+              <img class="video-swiper__img" src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="">
+              <button type="button" class="video-swiper__btn" title="播放">▶</button>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="video-swiper__card" title="" data-video-id="rKILs8aUyPs">
+              <img class="video-swiper__img" src="https://images.unsplash.com/photo-1554734867-bf3c00a49371?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="" loading="lazy">
+              <button type="button" class="video-swiper__btn" title="播放">▶</button>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="video-swiper__card" title=""
+              data-video-id="k-d3WJu_Jq0">
+              <img class="video-swiper__img" src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="" loading="lazy">
+              <button type="button" class="video-swiper__btn" title="播放">▶</button>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="video-swiper__card" title=""
+              data-video-id="Ypner2P13xs">
+              <img class="video-swiper__img" src="https://images.unsplash.com/photo-1602595688238-9fffe12d5af3?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="" loading="lazy">
+              <button type="button" class="video-swiper__btn" title="播放">▶</button>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="video-swiper__card" title="" data-video-id="keOIm6of1GQ">
+              <img class="video-swiper__img" src="https://images.unsplash.com/photo-1559000357-f6b52ddfbe37?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="" loading="lazy">
+              <button type="button" class="video-swiper__btn" title="播放">▶</button>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="video-swiper__card" title="" data-video-id="Nf8nlc_RuBY">
+              <img class="video-swiper__img" src="https://images.unsplash.com/photo-1596541223130-5d31a73fb6c6?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="" loading="lazy">
+              <button type="button" class="video-swiper__btn" title="播放">▶</button>
+            </div>
+          </div>
+        </div>
+        <div class="video-swiper-pagination"></div>
+      </div>
+      <!-- 右側導航按鈕 -->
+      <button type="button" class="video-swiper-button-next">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="#4b97b9" stroke="none"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-play">
+          <circle cx="12" cy="12" r="10" />
+          <polygon points="9 7 17 12 9 17 9 7" fill="#fff" />
+        </svg>
+      </button>
+    </section>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <script src="./js/swiper.js"></script>
+  <script src="./js/loadVideo.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initVideoSwiper();
+      loadYouTubeAPI();
+    })
+  </script>
+
+</body>
+</html>
