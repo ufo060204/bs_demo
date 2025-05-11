@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="src/video.css">
+</head>
+<style>
+  .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+  }
+  .banner {
+      position: relative;
+      width: 100%;
+      /* height: 187px; */
+      /* height: 145px; */
+      height: 70px;
+      overflow: hidden;
+  }
+
+  .banner .banner-bg {
+      position: absolute;
+      left: -25%;
+      width: 150%;
+      /* height: 145px; */
+      height: 250px;
+      background-color: #C82519;
+      border-top-left-radius: 100%;
+      border-top-right-radius: 100%;
+      background-image: linear-gradient(0deg, #f1503b, #c82519 50%);
+  }
+</style>
+<body>
+  <div class="footer">
+    <div class="banner">
+      <!-- 利用標籤的背景製作大盒子的背景效果 -->
+      <div class="banner-bg"></div>
+      <!-- 下面是滑動焦點的部分 -->
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="js/loadVideoDynamic.js"></script>
+</body>
+
+</html>

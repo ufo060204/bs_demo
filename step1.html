@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>水平進度步驟指示器（含滾動遮罩）</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "微軟正黑體", Arial, sans-serif;
+    }
+
+    body {
+      padding: 20px;
+    }
+
+    .progress-container {
+      position: relative;
+      max-width: 100%;
+      margin: 20px auto;
+      overflow: hidden;
+    }
+
+    .progress-steps {
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      padding: 10px 0 20px;
+      scroll-behavior: smooth;
+      /* 隱藏滾動條但保留功能 */
+      scrollbar-width: none;
+      /* Firefox */
+      -ms-overflow-style: none;
+      /* IE/Edge */
+    }
+
+    .progress-steps::-webkit-scrollbar {
+      display: none;
+      /* Chrome, Safari, Opera */
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      display: flex;
+      align-items: center;
+    }
+
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .step-completed .step-circle {
+      background-color: #1976D2;
+      color: white;
+    }
+
+    .step-current .step-circle {
+      background-color: #1976D2;
+      color: white;
+    }
+
+    .step-upcoming .step-circle {
+      background-color: #E0E0E0;
+      color: #757575;
+    }
+
+    .step-line {
+      height: 2px;
+      width: 60px;
+      margin: 0 4px;
+    }
+
+    .step-completed .step-line {
+      background-color: #1976D2;
+    }
+
+    .step-upcoming .step-line {
+      background-color: #E0E0E0;
+    }
+
+    .step-name {
+      font-size: 13px;
+      margin-top: 8px;
+      text-align: center;
+      max-width: 80px;
+    }
+
+    .step-completed .step-name,
+    .step-current .step-name {
+      color: #1976D2;
+      font-weight: 500;
+    }
+
+    .step-upcoming .step-name {
+      color: #757575;
+    }
+
+    .step-date {
+      font-size: 12px;
+      color: #9E9E9E;
+      margin-top: 4px;
+    }
+
+    /* 左側遮罩 */
+    .mask-left {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 60px;
+      background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+      pointer-events: none;
+      z-index: 10;
+      display: none;
+    }
+
+    /* 右側遮罩 */
+    .mask-right {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: 60px;
+      background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .checkmark {
+      width: 18px;
+      height: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="progress-container">
+    <!-- 左側遮罩 -->
+    <div class="mask-left" id="maskLeft"></div>
+
+    <!-- 步驟容器 -->
+    <div class="progress-steps" id="progressSteps">
+      <!-- 步驟將由 JavaScript 動態生成 -->
+    </div>
+
+    <!-- 右側遮罩 -->
+    <div class="mask-right" id="maskRight"></div>
+  </div>
+
+  <script>
+    // 步驟資料
+    const steps = [
+      { id: 1, name: '訂單成立', date: '2025/05/04', status: 'completed' },
+      { id: 2, name: '訂單處理中', date: '2025/05/04', status: 'completed' },
+      { id: 3, name: '待出貨', date: '2025/05/06', status: 'current' },
+      { id: 4, name: '寄家已寄件', date: '2025/05/07', status: 'upcoming' },
+      { id: 5, name: '前往物流中心', date: '2025/05/08', status: 'upcoming' },
+      { id: 6, name: '轉運中', date: '2025/05/09', status: 'upcoming' },
+      { id: 7, name: '配送中', date: '2025/05/10', status: 'upcoming' },
+      { id: 8, name: '已送達', date: '2025/05/11', status: 'upcoming' }
+    ];
+
+    // 取得 DOM 元素
+    const progressSteps = document.getElementById('progressSteps');
+    const maskLeft = document.getElementById('maskLeft');
+    const maskRight = document.getElementById('maskRight');
+
+    // 動態生成步驟元素
+    steps.forEach((step, index) => {
+      const stepElement = document.createElement('div');
+      stepElement.className = `step step-${step.status}`;
+
+      const stepContent = document.createElement('div');
+      stepContent.className = 'step-content';
+
+      // 步驟圓圈和內容
+      const stepCircleContent = document.createElement('div');
+      stepCircleContent.className = 'step-circle';
+
+      if (step.status === 'completed') {
+        // 完成步驟顯示勾勾
+        stepCircleContent.innerHTML = `
+          <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        `;
+      } else {
+        // 其他狀態顯示數字
+        stepCircleContent.textContent = step.id;
+      }
+
+      // 步驟名稱和日期
+      const stepName = document.createElement('div');
+      stepName.className = 'step-name';
+      stepName.textContent = step.name;
+
+      const stepDate = document.createElement('div');
+      stepDate.className = 'step-date';
+      stepDate.textContent = step.date;
+
+      // 加入步驟圓圈
+      stepElement.appendChild(stepCircleContent);
+
+      // 加入步驟名稱和日期
+      stepElement.appendChild(stepName);
+      stepElement.appendChild(stepDate);
+
+      // 加入連接線（最後一個步驟不需要）
+      if (index < steps.length - 1) {
+        const stepLine = document.createElement('div');
+
+        // 決定連接線顏色
+        let lineStatus = 'upcoming';
+        if (index < steps.findIndex(s => s.status === 'current')) {
+          lineStatus = 'completed';
+        }
+
+        stepLine.className = `step-line step-${lineStatus}`;
+        stepContent.appendChild(stepElement);
+        stepContent.appendChild(stepLine);
+        progressSteps.appendChild(stepContent);
+      } else {
+        // 最後一個步驟
+        stepContent.appendChild(stepElement);
+        progressSteps.appendChild(stepContent);
+      }
+    });
+
+    // 檢查滾動位置並更新遮罩顯示
+    function checkScroll() {
+      // 檢查是否需要顯示左側遮罩
+      if (progressSteps.scrollLeft > 10) {
+        maskLeft.style.display = 'block';
+      } else {
+        maskLeft.style.display = 'none';
+      }
+
+      // 檢查是否需要顯示右側遮罩
+      const isAtEnd = progressSteps.scrollLeft + progressSteps.clientWidth >= progressSteps.scrollWidth - 10;
+      maskRight.style.display = isAtEnd ? 'none' : 'block';
+    }
+
+    // 初始檢查滾動狀態
+    window.addEventListener('load', checkScroll);
+
+    // 監聽滾動事件
+    progressSteps.addEventListener('scroll', checkScroll);
+
+    // 監聽視窗大小變化
+    window.addEventListener('resize', checkScroll);
+  </script>
+</body>
+
+</html>

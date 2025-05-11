@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>純 CSS 實現滾動遮罩的水平步驟指示器</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "微軟正黑體", Arial, sans-serif;
+    }
+
+    body {
+      padding: 20px;
+    }
+
+    /* 主容器 */
+    .progress-container {
+      position: relative;
+      max-width: 100%;
+      margin: 20px auto;
+      overflow: hidden;
+    }
+
+    /* 步驟容器 - 滾動區域 */
+    .progress-steps {
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      padding: 10px 0 20px;
+      scroll-behavior: smooth;
+      /* 捲動條樣式 */
+      scrollbar-width: none;
+      /* Firefox */
+      -ms-overflow-style: none;
+      /* IE/Edge */
+      /* 重要：設定內容與邊緣的距離，為遮罩留出空間 */
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    /* 隱藏滾動條 */
+    .progress-steps::-webkit-scrollbar {
+      display: none;
+      /* Chrome, Safari, Opera */
+    }
+
+    /* 純 CSS 左側遮罩 */
+    .progress-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 60px;
+      background: linear-gradient(to right, rgba(255, 255, 255, 1) 30%, rgba(255, 255, 255, 0));
+      pointer-events: none;
+      z-index: 10;
+      /* 關鍵：只在有滾動內容時顯示 */
+      opacity: 0;
+    }
+
+    /* 純 CSS 右側遮罩 */
+    .progress-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 60px;
+      background: linear-gradient(to left, rgba(255, 255, 255, 1) 30%, rgba(255, 255, 255, 0));
+      pointer-events: none;
+      z-index: 10;
+      /* 默認顯示右側遮罩 */
+      opacity: 1;
+    }
+
+    /* 左側遮罩顯示條件：當可以向左滾動時（使用 :not 選擇器和滾動位置） */
+    .progress-steps:not(:is([data-scroll="start"])::-webkit-scrollbar-thumb:horizontal)~.progress-container::before,
+    .progress-steps:not([data-scroll="start"])~.progress-container::before {
+      opacity: 1;
+    }
+
+    /* 當內容無法滾動時隱藏右側遮罩 */
+    .progress-steps.no-overflow~.progress-container::after {
+      opacity: 0;
+    }
+
+    /* 左側遮罩顯示條件：當滾動位置不在頂部 */
+    .progress-steps:not(:is([data-scroll="start"]))+.progress-container::before {
+      opacity: 1;
+    }
+
+    /* 當有水平滾動時自動顯示左側遮罩（基於滾動位置） */
+    .progress-steps:has(> :first-child:not(:hover)) {
+      scroll-padding-left: 10px;
+    }
+
+    .progress-steps:has(> :last-child:hover) {
+      scroll-padding-right: 10px;
+    }
+
+    /* 滾動位置懸停檢測 */
+    .progress-steps:hover::-webkit-scrollbar-thumb {
+      visibility: visible;
+    }
+
+    /* 步驟樣式 */
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      display: flex;
+      align-items: center;
+    }
+
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .step-completed .step-circle {
+      background-color: #1976D2;
+      color: white;
+    }
+
+    .step-current .step-circle {
+      background-color: #1976D2;
+      color: white;
+    }
+
+    .step-upcoming .step-circle {
+      background-color: #E0E0E0;
+      color: #757575;
+    }
+
+    .step-line {
+      height: 2px;
+      width: 60px;
+      margin: 0 4px;
+    }
+
+    .step-completed .step-line {
+      background-color: #1976D2;
+    }
+
+    .step-upcoming .step-line {
+      background-color: #E0E0E0;
+    }
+
+    .step-name {
+      font-size: 13px;
+      margin-top: 8px;
+      text-align: center;
+      max-width: 80px;
+    }
+
+    .step-completed .step-name,
+    .step-current .step-name {
+      color: #1976D2;
+      font-weight: 500;
+    }
+
+    .step-upcoming .step-name {
+      color: #757575;
+    }
+
+    .step-date {
+      font-size: 12px;
+      color: #9E9E9E;
+      margin-top: 4px;
+    }
+
+    /* 基於滾動位置的進階遮罩樣式 (搭配少量 JS 使用) */
+    .progress-steps.scroll-start::before {
+      opacity: 0;
+    }
+
+    .progress-steps.scroll-end::after {
+      opacity: 0;
+    }
+
+    .checkmark {
+      width: 18px;
+      height: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="progress-container">
+    <!-- 步驟容器 -->
+    <div class="progress-steps" id="progressSteps">
+      <!-- 步驟將由 JavaScript 動態生成 -->
+    </div>
+  </div>
+
+  <script>
+    // 步驟資料
+    const steps = [
+      { id: 1, name: '訂單成立', date: '2025/05/04', status: 'completed' },
+      { id: 2, name: '訂單處理中', date: '2025/05/04', status: 'completed' },
+      { id: 3, name: '待出貨', date: '2025/05/06', status: 'current' },
+      { id: 4, name: '寄家已寄件', date: '2025/05/07', status: 'upcoming' },
+      { id: 5, name: '前往物流中心', date: '2025/05/08', status: 'upcoming' },
+      { id: 6, name: '轉運中', date: '2025/05/09', status: 'upcoming' },
+      { id: 7, name: '配送中', date: '2025/05/10', status: 'upcoming' },
+      { id: 8, name: '已送達', date: '2025/05/11', status: 'upcoming' }
+    ];
+
+    // 取得 DOM 元素
+    const progressSteps = document.getElementById('progressSteps');
+
+    // 動態生成步驟元素
+    steps.forEach((step, index) => {
+      const stepElement = document.createElement('div');
+      stepElement.className = `step step-${step.status}`;
+
+      const stepContent = document.createElement('div');
+      stepContent.className = 'step-content';
+
+      // 步驟圓圈和內容
+      const stepCircleContent = document.createElement('div');
+      stepCircleContent.className = 'step-circle';
+
+      if (step.status === 'completed') {
+        // 完成步驟顯示勾勾
+        stepCircleContent.innerHTML = `
+          <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        `;
+      } else {
+        // 其他狀態顯示數字
+        stepCircleContent.textContent = step.id;
+      }
+
+      // 步驟名稱和日期
+      const stepName = document.createElement('div');
+      stepName.className = 'step-name';
+      stepName.textContent = step.name;
+
+      const stepDate = document.createElement('div');
+      stepDate.className = 'step-date';
+      stepDate.textContent = step.date;
+
+      // 加入步驟圓圈
+      stepElement.appendChild(stepCircleContent);
+
+      // 加入步驟名稱和日期
+      stepElement.appendChild(stepName);
+      stepElement.appendChild(stepDate);
+
+      // 加入連接線（最後一個步驟不需要）
+      if (index < steps.length - 1) {
+        const stepLine = document.createElement('div');
+
+        // 決定連接線顏色
+        let lineStatus = 'upcoming';
+        if (index < steps.findIndex(s => s.status === 'current')) {
+          lineStatus = 'completed';
+        }
+
+        stepLine.className = `step-line step-${lineStatus}`;
+        stepContent.appendChild(stepElement);
+        stepContent.appendChild(stepLine);
+        progressSteps.appendChild(stepContent);
+      } else {
+        // 最後一個步驟
+        stepContent.appendChild(stepElement);
+        progressSteps.appendChild(stepContent);
+      }
+    });
+
+    // 檢查容器是否可滾動
+    function checkIfScrollable() {
+      if (progressSteps.scrollWidth <= progressSteps.clientWidth) {
+        progressSteps.classList.add('no-overflow');
+      } else {
+        progressSteps.classList.remove('no-overflow');
+      }
+    }
+
+    // 初始檢查
+    window.addEventListener('load', checkIfScrollable);
+
+    // 視窗大小變化時重新檢查
+    window.addEventListener('resize', checkIfScrollable);
+  </script>
+</body>
+
+</html>
