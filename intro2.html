@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>微笑牙醫診所 - 醫師介紹</title>
+  <style>
+    /* 全局樣式 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Microsoft JhengHei', Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f8f9fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 20px 0;
+      background-color: #4a98e0;
+      color: white;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: #4a98e0;
+      margin-bottom: 20px;
+    }
+
+    /* 醫師卡片樣式 */
+    .doctors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .doctor-card {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .doctor-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .doctor-image {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+
+    .doctor-info {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .doctor-name {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .doctor-title {
+      color: #666;
+      font-size: 1rem;
+    }
+
+    /* 原生 dialog 元素樣式 */
+    dialog {
+      width: 90%;
+      max-width: 700px;
+      padding: 0;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-30px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      /* 保證絕對居中 */
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin: 0;
+    }
+
+    dialog[open] {
+      opacity: 1;
+      animation: modalFadeIn 0.3s ease forwards;
+    }
+
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    /* 當 dialog 顯示時添加背景模糊效果 */
+    dialog::backdrop {
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      padding: 20px 30px;
+      background-color: #4a98e0;
+      color: white;
+    }
+
+    .modal-doctor-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid white;
+      margin-right: 20px;
+    }
+
+    .modal-doctor-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    .modal-body {
+      padding: 30px;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    .detail-section {
+      margin-bottom: 25px;
+    }
+
+    .detail-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #4a98e0;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #4a98e0;
+      padding-bottom: 5px;
+    }
+
+    .detail-content {
+      font-size: 1rem;
+      color: #333;
+      line-height: 1.8;
+    }
+
+    .specialties {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .specialty-tag {
+      background-color: #e9f4ff;
+      color: #4a98e0;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    .modal-footer {
+      padding: 15px 30px;
+      text-align: right;
+      background-color: #f8f9fa;
+      border-top: 1px solid #ddd;
+    }
+
+    .close-button {
+      background-color: #4a98e0;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .close-button:hover {
+      background-color: #3486cc;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>微笑牙醫診所</h1>
+    <p>專業、用心、為您的健康而努力</p>
+  </header>
+
+  <div class="container">
+    <h2>醫師團隊介紹</h2>
+    <p>我們擁有經驗豐富的專業醫師團隊，致力於為您提供最優質的口腔保健服務。點擊醫師卡片了解更多詳細資訊。</p>
+
+    <div class="doctors-grid">
+      <!-- 醫師卡片 1 -->
+      <div class="doctor-card" data-doctor-id="doctor1">
+        <img src="https://images.unsplash.com/photo-1653020282870-ad9f13a78bd1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="陳威廷醫師" class="doctor-image">
+        <div class="doctor-info">
+          <div class="doctor-name">陳威廷 醫師</div>
+          <div class="doctor-title">院長 / 口腔外科專科醫師</div>
+        </div>
+      </div>
+
+      <!-- 醫師卡片 2 -->
+      <div class="doctor-card" data-doctor-id="doctor2">
+        <img src="https://images.unsplash.com/photo-1659020060234-27b1cd46c092?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="林美君醫師" class="doctor-image">
+        <div class="doctor-info">
+          <div class="doctor-name">林美君 醫師</div>
+          <div class="doctor-title">兒童牙科 / 矯正專科醫師</div>
+        </div>
+      </div>
+
+      <!-- 醫師卡片 3 -->
+      <div class="doctor-card" data-doctor-id="doctor3">
+        <img src="https://images.unsplash.com/photo-1631563020241-09beac7791b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="王建國醫師" class="doctor-image">
+        <div class="doctor-info">
+          <div class="doctor-name">王建國 醫師</div>
+          <div class="doctor-title">牙周病專科 / 人工植牙專家</div>
+        </div>
+      </div>
+
+      <!-- 醫師卡片 4 -->
+      <div class="doctor-card" data-doctor-id="doctor4">
+        <img src="https://images.unsplash.com/photo-1649381794477-71a8aa630dca?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="張雅琪醫師" class="doctor-image">
+        <div class="doctor-info">
+          <div class="doctor-name">張雅琪 醫師</div>
+          <div class="doctor-title">一般牙科 / 美容牙科醫師</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 使用原生 dialog 元素作為對話框 -->
+  <dialog id="doctorDialog">
+    <div class="modal-header">
+      <img src="" alt="" class="modal-doctor-image" id="modalDoctorImage">
+      <div class="modal-doctor-title" id="modalDoctorName"></div>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <!-- 內容將由JavaScript動態填充 -->
+    </div>
+    <div class="modal-footer">
+      <button class="close-button" id="closeModal">關閉</button>
+    </div>
+  </dialog>
+
+  <script>
+    // 醫師詳細資料
+    const doctorsData = {
+      doctor1: {
+        name: "陳威廷 醫師",
+        title: "院長 / 口腔外科專科醫師",
+        image: "https://images.unsplash.com/photo-1653020282870-ad9f13a78bd1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        education: [
+          "台灣大學牙醫學系畢業",
+          "美國哈佛大學口腔外科專科醫師",
+          "台灣口腔外科專科醫師",
+          "台灣口腔重建專科醫師"
+        ],
+        experience: [
+          "台大醫院口腔外科主治醫師 (2007-2015)",
+          "微笑牙醫診所院長 (2015-至今)",
+          "台灣牙醫師公會全國聯合會理事",
+          "國際口腔外科學會會員"
+        ],
+        specialties: ["智齒拔除", "口腔癌篩檢", "複雜性齒槽骨手術", "人工植牙", "顳顎關節障礙診治"]
+      },
+      doctor2: {
+        name: "林美君 醫師",
+        title: "兒童牙科 / 矯正專科醫師",
+        image: "https://images.unsplash.com/photo-1659020060234-27b1cd46c092?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        education: [
+          "陽明大學牙醫學系畢業",
+          "台灣兒童牙科專科醫師",
+          "美國波士頓大學齒顎矯正專科"
+        ],
+        experience: [
+          "台北榮總兒童牙科醫師 (2010-2018)",
+          "微笑牙醫診所兒童牙科主任 (2018-至今)",
+          "台灣兒童牙科醫學會秘書長",
+          "台灣矯正學會會員"
+        ],
+        specialties: ["兒童齲齒預防", "早期矯正治療", "功能性矯正器", "固定式與隱形矯正", "特殊需求兒童牙科治療"]
+      },
+      doctor3: {
+        name: "王建國 醫師",
+        title: "牙周病專科 / 人工植牙專家",
+        image: "https://images.unsplash.com/photo-1631563020241-09beac7791b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        education: [
+          "中山醫學大學牙醫學系畢業",
+          "台灣牙周病專科醫師",
+          "美國紐約大學人工植牙進修"
+        ],
+        experience: [
+          "長庚醫院牙周病科醫師 (2012-2017)",
+          "微笑牙醫診所牙周病科主任 (2017-至今)",
+          "台灣牙周病醫學會專科醫師",
+          "國際植牙學會會員"
+        ],
+        specialties: ["牙周病診治", "牙周再生手術", "人工植牙", "軟組織再生", "雷射治療"]
+      },
+      doctor4: {
+        name: "張雅琪 醫師",
+        title: "一般牙科 / 美容牙科醫師",
+        image: "https://images.unsplash.com/photo-1649381794477-71a8aa630dca?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        education: [
+          "高雄醫學大學牙醫學系畢業",
+          "美國加州大學洛杉磯分校美容牙科進修"
+        ],
+        experience: [
+          "微笑牙醫診所一般牙科醫師 (2016-至今)",
+          "台灣美容牙科學會會員",
+          "數位微笑設計認證醫師"
+        ],
+        specialties: ["數位全瓷冠", "牙齒美白", "牙齒貼片", "微創補牙", "全口重建"]
+      }
+    };
+
+    // 獲取DOM元素
+    const doctorCards = document.querySelectorAll('.doctor-card');
+    const doctorDialog = document.getElementById('doctorDialog');
+    const modalDoctorImage = document.getElementById('modalDoctorImage');
+    const modalDoctorName = document.getElementById('modalDoctorName');
+    const modalBody = document.getElementById('modalBody');
+    const closeModalButton = document.getElementById('closeModal');
+
+    // 點擊醫師卡片時顯示詳細資料
+    doctorCards.forEach(card => {
+      card.addEventListener('click', function () {
+        const doctorId = this.getAttribute('data-doctor-id');
+        const doctor = doctorsData[doctorId];
+
+        // 設置對話框內容
+        modalDoctorImage.src = doctor.image;
+        modalDoctorImage.alt = doctor.name;
+        modalDoctorName.textContent = doctor.name;
+
+        // 清除之前的內容
+        modalBody.innerHTML = '';
+
+        // 添加學歷
+        const educationSection = document.createElement('div');
+        educationSection.className = 'detail-section';
+        educationSection.innerHTML = `
+                    <div class="detail-title">學歷背景</div>
+                    <div class="detail-content">
+                        <ul>
+                            ${doctor.education.map(edu => `<li>${edu}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+        modalBody.appendChild(educationSection);
+
+        // 添加經歷
+        const experienceSection = document.createElement('div');
+        experienceSection.className = 'detail-section';
+        experienceSection.innerHTML = `
+                    <div class="detail-title">專業經歷</div>
+                    <div class="detail-content">
+                        <ul>
+                            ${doctor.experience.map(exp => `<li>${exp}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+        modalBody.appendChild(experienceSection);
+
+        // 添加專長
+        const specialtiesSection = document.createElement('div');
+        specialtiesSection.className = 'detail-section';
+        specialtiesSection.innerHTML = `
+                    <div class="detail-title">專業專長</div>
+                    <div class="detail-content">
+                        <div class="specialties">
+                            ${doctor.specialties.map(specialty => `<div class="specialty-tag">${specialty}</div>`).join('')}
+                        </div>
+                    </div>
+                `;
+        modalBody.appendChild(specialtiesSection);
+
+        // 防止背景滾動
+        document.body.style.overflow = 'hidden';
+
+        // 使用原生方法顯示對話框，以模態方式顯示
+        doctorDialog.showModal();
+      });
+    });
+
+    // 關閉對話框按鈕
+    closeModalButton.addEventListener('click', function () {
+      doctorDialog.close();
+      // 恢復背景滾動
+      document.body.style.overflow = 'auto';
+    });
+
+    // 點擊對話框外部區域關閉 (需要額外添加這個功能)
+    doctorDialog.addEventListener('click', function (event) {
+      // 判斷點擊是否在對話框外部
+      const rect = this.getBoundingClientRect();
+      const isInDialog = (
+        rect.top <= event.clientY &&
+        event.clientY <= rect.top + rect.height &&
+        rect.left <= event.clientX &&
+        event.clientX <= rect.left + rect.width
+      );
+
+      if (!isInDialog) {
+        this.close();
+        // 恢復背景滾動
+        document.body.style.overflow = 'auto';
+      }
+    });
+
+    // 監聽 dialog 的 close 事件，確保背景滾動恢復
+    doctorDialog.addEventListener('close', function () {
+      document.body.style.overflow = 'auto';
+    });
+  </script>
+</body>
+
+</html>
