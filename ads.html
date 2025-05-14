@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>診所列表</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Microsoft JhengHei", sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      color: #333;
+      padding-bottom: 60px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+      color: #2a6496;
+    }
+
+    .clinic-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .clinic-card,
+    .clinic-card-ads {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .clinic-card:hover,
+    .clinic-card-ads:hover {
+      transform: translateY(-5px);
+    }
+
+    .clinic-card-ads {
+      border: 2px solid #dff0d8;
+      background-color: #f9fff7;
+    }
+
+    .clinic-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .clinic-info {
+      padding: 15px;
+    }
+
+    .clinic-name {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #2a6496;
+    }
+
+    .clinic-address {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .clinic-phone {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .clinic-services {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .clinic-rating {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .rating-value {
+      font-weight: bold;
+      margin-right: 5px;
+    }
+
+    .rating-stars {
+      color: #ffc107;
+    }
+
+    .ad-badge {
+      display: inline-block;
+      background-color: #dff0d8;
+      color: #3c763d;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    /* Mobile footer styles */
+    .mobile-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: white;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      display: none;
+      /* 默認隱藏，在小屏幕上顯示 */
+    }
+
+    .footer-toggle {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 50px;
+      cursor: pointer;
+      border-top: 1px solid #eee;
+    }
+
+    .footer-toggle-text {
+      margin-right: 10px;
+    }
+
+    .footer-toggle-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .footer-content {
+      height: 0;
+      overflow: hidden;
+      transition: height 0.3s ease;
+    }
+
+    .footer-expanded .footer-content {
+      height: 200px;
+      border-top: 1px solid #eee;
+    }
+
+    .footer-expanded .footer-toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .footer-cards-container {
+      overflow-x: auto;
+      padding: 15px;
+      display: flex;
+      gap: 15px;
+      scroll-snap-type: x mandatory;
+    }
+
+    .footer-card {
+      min-width: 250px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      scroll-snap-align: start;
+    }
+
+    .footer-ad-card {
+      background-color: #f7fff9;
+      border: 1px solid #dff0d8;
+    }
+
+    .footer-card-image {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .footer-card-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .footer-card-address {
+      font-size: 12px;
+      color: #666;
+    }
+
+    /* 響應式設計 */
+    @media screen and (max-width: 768px) {
+      .mobile-footer {
+        display: block;
+      }
+
+      body {
+        padding-bottom: 60px;
+      }
+
+      .clinic-list {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>附近診所列表</h1>
+
+    <div class="clinic-list" id="clinicList">
+      <!-- 這裡將顯示廣告卡片 -->
+      <div id="adPlaceholder" class="clinic-card-ads"
+        style="display: flex; justify-content: center; align-items: center; min-height: 200px;">
+        廣告載入中...
+      </div>
+
+      <!-- 靜態診所列表 -->
+      <div class="clinic-card" data-id="1">
+        <img src="/api/placeholder/400/300" alt="康健家庭診所" class="clinic-image">
+        <div class="clinic-info">
+          <div class="clinic-name">康健家庭診所</div>
+          <div class="clinic-address">新北市板橋區文化路一段12號</div>
+          <div class="clinic-phone">02-2258-1234</div>
+          <div class="clinic-services">服務項目：家庭醫學、內科、兒科</div>
+          <div class="clinic-rating">
+            <span class="rating-value">4.8</span>
+            <span class="rating-stars">★★★★★</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="clinic-card" data-id="2">
+        <img src="/api/placeholder/400/300" alt="仁愛牙醫診所" class="clinic-image">
+        <div class="clinic-info">
+          <div class="clinic-name">仁愛牙醫診所</div>
+          <div class="clinic-address">新北市板橋區四維路189號</div>
+          <div class="clinic-phone">02-2256-5678</div>
+          <div class="clinic-services">服務項目：一般牙科、植牙、矯正</div>
+          <div class="clinic-rating">
+            <span class="rating-value">4.6</span>
+            <span class="rating-stars">★★★★★</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="clinic-card" data-id="3">
+        <img src="/api/placeholder/400/300" alt="新北醫療中心" class="clinic-image">
+        <div class="clinic-info">
+          <div class="clinic-name">新北醫療中心</div>
+          <div class="clinic-address">新北市板橋區民生路三段50號</div>
+          <div class="clinic-phone">02-2255-9876</div>
+          <div class="clinic-services">服務項目：內科、外科、骨科、復健科</div>
+          <div class="clinic-rating">
+            <span class="rating-value">4.7</span>
+            <span class="rating-stars">★★★★★</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="clinic-card" data-id="4">
+        <img src="/api/placeholder/400/300" alt="健康眼科診所" class="clinic-image">
+        <div class="clinic-info">
+          <div class="clinic-name">健康眼科診所</div>
+          <div class="clinic-address">新北市新莊區中平路98號</div>
+          <div class="clinic-phone">02-8992-3344</div>
+          <div class="clinic-services">服務項目：一般眼科、青光眼、白內障</div>
+          <div class="clinic-rating">
+            <span class="rating-value">4.5</span>
+            <span class="rating-stars">★★★★★</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="clinic-card" data-id="5">
+        <img src="/api/placeholder/400/300" alt="陽光皮膚科診所" class="clinic-image">
+        <div class="clinic-info">
+          <div class="clinic-name">陽光皮膚科診所</div>
+          <div class="clinic-address">新北市三重區重新路一段123號</div>
+          <div class="clinic-phone">02-2976-5566</div>
+          <div class="clinic-services">服務項目：皮膚科、美容醫學</div>
+          <div class="clinic-rating">
+            <span class="rating-value">4.4</span>
+            <span class="rating-stars">★★★★☆</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="clinic-card" data-id="6">
+        <img src="/api/placeholder/400/300" alt="恩典耳鼻喉科診所" class="clinic-image">
+        <div class="clinic-info">
+          <div class="clinic-name">恩典耳鼻喉科診所</div>
+          <div class="clinic-address">新北市中和區景平路156號</div>
+          <div class="clinic-phone">02-2943-7788</div>
+          <div class="clinic-services">服務項目：耳鼻喉科、過敏治療</div>
+          <div class="clinic-rating">
+            <span class="rating-value">4.3</span>
+            <span class="rating-stars">★★★★☆</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 手機版底部滑動菜單 -->
+  <div class="mobile-footer" id="mobileFooter">
+    <div class="footer-toggle" id="footerToggle">
+      <span class="footer-toggle-text">查看推薦診所</span>
+      <span class="footer-toggle-icon">▼</span>
+    </div>
+    <div class="footer-content">
+      <div class="footer-cards-container" id="footerCards">
+        <!-- 這裡將顯示可滑動的三張卡片 -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 僅用於模擬非同步獲取的廣告資料數組
+    const adsData = [
+      {
+        id: 991,
+        name: "優質醫療診所 - 專業推薦",
+        image: "/api/placeholder/400/300",
+        address: "新北市板橋區府中路25號",
+        phone: "02-2272-9999",
+        services: ["家庭醫學", "健康檢查", "預防醫學"],
+        rating: 4.9,
+        promotionText: "新患者首次看診85折優惠！"
+      },
+      {
+        id: 992,
+        name: "精英牙醫診所 - 客製化治療",
+        image: "/api/placeholder/400/300",
+        address: "新北市新莊區中正路121號",
+        phone: "02-8992-7788",
+        services: ["數位牙科", "全瓷冠", "隱形矯正"],
+        rating: 4.8,
+        promotionText: "預約檢查送專業潔牙！"
+      },
+      {
+        id: 993,
+        name: "全心中醫診所 - 特色中醫",
+        image: "/api/placeholder/400/300",
+        address: "新北市板橋區民生路二段88號",
+        phone: "02-2257-5566",
+        services: ["針灸", "推拿", "中藥調理"],
+        rating: 4.7,
+        promotionText: "來店體驗送養生茶包！"
+      }
+    ];
+
+    // 渲染廣告卡片的函數
+    function createAdCard(ad) {
+      const card = document.createElement('div');
+      card.className = 'clinic-card-ads';
+      card.dataset.id = ad.id;
+      card.dataset.isAd = 'true';
+
+      // 構建評分星星
+      const fullStars = Math.floor(ad.rating);
+      const hasHalfStar = ad.rating % 1 >= 0.5;
+      let starsHtml = '';
+
+      for (let i = 0; i < 5; i++) {
+        if (i < fullStars) {
+          starsHtml += '★';
+        } else if (i === fullStars && hasHalfStar) {
+          starsHtml += '★';
+        } else {
+          starsHtml += '☆';
+        }
+      }
+
+      // 構建服務項目
+      const servicesText = ad.services.join('、');
+
+      // 卡片HTML結構
+      card.innerHTML = `
+                <img src="${ad.image}" alt="${ad.name}" class="clinic-image">
+                <div class="clinic-info">
+                    <div class="ad-badge">推薦</div>
+                    <div class="clinic-name">${ad.name}</div>
+                    <div class="clinic-address">${ad.address}</div>
+                    <div class="clinic-phone">${ad.phone}</div>
+                    <div class="clinic-services">服務項目：${servicesText}</div>
+                    <div class="clinic-rating">
+                        <span class="rating-value">${ad.rating}</span>
+                        <span class="rating-stars">${starsHtml}</span>
+                    </div>
+                    <div style="color:#d9534f;font-size:14px;">${ad.promotionText}</div>
+                </div>
+            `;
+
+      return card;
+    }
+
+    // 渲染簡化版的footer卡片
+    function createFooterCard(name, image, address) {
+      const card = document.createElement('div');
+      card.className = 'footer-card';
+
+      card.innerHTML = `
+                <img src="${image}" alt="${name}" class="footer-card-image">
+                <div class="footer-card-name">${name}</div>
+                <div class="footer-card-address">${address}</div>
+            `;
+
+      return card;
+    }
+
+    // 從頁面獲取診所卡片資料
+    function getClinicDataFromPage() {
+      // 分別獲取廣告卡片和一般診所卡片
+      const adsCards = document.querySelectorAll('.clinic-card-ads');
+      const clinicCards = document.querySelectorAll('.clinic-card');
+
+      const adsData = [];
+      const clinicsData = [];
+
+      // 獲取廣告卡片資料
+      adsCards.forEach(card => {
+        // 獲取每個卡片中的相關數據
+        const name = card.querySelector('.clinic-name').textContent;
+        const image = card.querySelector('.clinic-image').src;
+        const address = card.querySelector('.clinic-address').textContent;
+
+        adsData.push({
+          name,
+          image,
+          address,
+          isAd: true
+        });
+      });
+
+      // 獲取一般診所卡片資料
+      clinicCards.forEach(card => {
+        // 獲取每個卡片中的相關數據
+        const name = card.querySelector('.clinic-name').textContent;
+        const image = card.querySelector('.clinic-image').src;
+        const address = card.querySelector('.clinic-address').textContent;
+
+        clinicsData.push({
+          name,
+          image,
+          address,
+          isAd: false
+        });
+      });
+
+      return { adsData, clinicsData };
+    }
+
+    // 模擬從後端獲取廣告資料（多則廣告）
+    function fetchAdsData() {
+      return new Promise((resolve) => {
+        // 模擬API請求延遲
+        setTimeout(() => {
+          // 這裡可以隨機返回2則或3則廣告，改變以下的數字來測試不同的情況
+          // Math.random() < 0.5 會有50%的機率返回2則廣告，50%的機率返回3則
+          const adCount = Math.random() < 0.5 ? 2 : 3;
+          resolve(adsData.slice(0, adCount));
+        }, 1500);
+      });
+    }
+
+    // 初始化頁面
+    async function initPage() {
+      const adPlaceholder = document.getElementById('adPlaceholder');
+      const clinicListElement = document.getElementById('clinicList');
+
+      try {
+        // 從API獲取廣告資料（可能是2則或3則）
+        const ads = await fetchAdsData();
+
+        // 移除廣告佔位符
+        clinicListElement.removeChild(adPlaceholder);
+
+        // 添加所有廣告卡片到列表最前面
+        ads.forEach(ad => {
+          const adCard = createAdCard(ad);
+          clinicListElement.insertBefore(adCard, clinicListElement.firstChild);
+        });
+
+        // 在廣告全部插入後初始化footer選單的卡片
+        initFooterCards(ads);
+
+      } catch (error) {
+        console.error('獲取廣告資料時出錯:', error);
+        adPlaceholder.textContent = '廣告載入失敗';
+      }
+    }
+
+    // 初始化footer卡片 - 根據廣告數量動態調整
+    function initFooterCards(ads) {
+      const footerCardsElement = document.getElementById('footerCards');
+
+      // 清空現有卡片
+      footerCardsElement.innerHTML = '';
+
+      // 從頁面抓取所有卡片資料
+      const { adsData, clinicsData } = getClinicDataFromPage();
+
+      // 在 ads 為空時使用頁面上的廣告卡片數據
+      const adsList = ads || adsData;
+
+      // 如果廣告數量等於或超過3, footer就只顯示廣告
+      if (adsList.length >= 3) {
+        // 添加3個廣告卡片
+        for (let i = 0; i < 3; i++) {
+          const card = createFooterCard(adsList[i].name, adsList[i].image, adsList[i].address);
+          card.classList.add('footer-ad-card'); // 添加特殊標記
+          footerCardsElement.appendChild(card);
+        }
+      } else {
+        // 先添加所有可用的廣告
+        adsList.forEach(ad => {
+          const card = createFooterCard(ad.name, ad.image, ad.address);
+          card.classList.add('footer-ad-card'); // 添加特殊標記
+          footerCardsElement.appendChild(card);
+        });
+
+        // 再添加一般診所直到達到3張
+        const neededClinicCards = 3 - adsList.length;
+        for (let i = 0; i < neededClinicCards && i < clinicsData.length; i++) {
+          const card = createFooterCard(clinicsData[i].name, clinicsData[i].image, clinicsData[i].address);
+          footerCardsElement.appendChild(card);
+        }
+      }
+    }
+
+    // 初始化頁面
+    document.addEventListener('DOMContentLoaded', function () {
+      // 初始化診所列表 - 獲取廣告資料
+      initPage();
+
+      // 設置footer選單的展開/收縮功能
+      const footerToggle = document.getElementById('footerToggle');
+      const mobileFooter = document.getElementById('mobileFooter');
+
+      footerToggle.addEventListener('click', function () {
+        mobileFooter.classList.toggle('footer-expanded');
+      });
+    });
+  </script>
+</body>
+
+</html>
