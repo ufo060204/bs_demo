@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>絕美牙醫診所 - 醫師團隊</title>
+  <style>
+    /* 基本樣式重置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+
+    body {
+      background-color: #f8f9fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 30px 0;
+      color: #0079bf;
+    }
+    .detail-content {
+      display: block;
+    }
+    @media screen and (min-width: 640px) {
+      .detail-content {
+        display: none;
+      }
+    }
+    /* 網格布局 */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    @media (min-width: 640px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    .col-span-4 {
+      grid-column: span 4 / span 4;
+    }
+
+    /* 醫生卡片樣式 */
+    .doctor-card {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .doctor-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .doctor-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 0 auto 15px;
+      overflow: hidden;
+      border: 3px solid #0079bf;
+    }
+
+    .doctor-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .doctor-name {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #2c3e50;
+    }
+
+    .view-btn {
+      display: inline-block;
+      padding: 8px 20px;
+      background-color: #ddd;
+      color: #6b7281;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: background-color 0.3s;
+      position: relative;
+    }
+
+    .doctor-card:hover .view-btn {
+      background-color: #ccecf8;
+    }
+
+    /* 詳情容器樣式 */
+    .details-container {
+      width: 100%;
+      background: #ccecf8;
+      border-radius: 10px;
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.5s ease;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+    }
+
+    .details-container.active {
+      padding: 24px 48px;
+      max-height: 1000px;
+      /* 調整為足夠大的值 */
+      opacity: 1;
+    }
+
+    /* 列表樣式 */
+    ul.list-disc {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    .list-disc li {
+      margin-bottom: 8px;
+    }
+
+    .ml-8 {
+      margin-left: 8px;
+    }
+
+    .gap-x-150 {
+      column-gap: 150px;
+    }
+
+    .gap-y-1_5 {
+      row-gap: 6px;
+    }
+
+    .text-sm {
+      font-size: 14px;
+    }
+
+    .text-737480 {
+      color: #737480;
+    }
+
+    .p-4 {
+      padding: 16px;
+    }
+
+    /* 移動設備適配 */
+    @media (max-width: 768px) {
+      .doctor-card {
+        padding: 15px;
+      }
+
+      .doctor-avatar {
+        width: 100px;
+        height: 100px;
+      }
+
+      .details-container.active {
+        padding: 16px 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>絕美牙醫診所 醫師團隊</h1>
+
+    <div class="doctor-row grid">
+      <!-- 第一組醫生 (1-4) -->
+      <div class="doctor-card">
+        <details>
+          <summary class="mb-4 lg:mb-0 ">
+            <div class="doctor-avatar">
+              <img src="../assets/2/images/doctor-04.webp" alt="徐永鎬">
+            </div>
+            <h2 class="doctor-name">徐永鎬</h2>
+            <p
+              class="view-btn relative after:content-['▼'] lg:after:content-[''] after:absolute after:-bottom-4 after:text-[#ccecf8] after:left-1/2">
+              醫師學經歷
+            </p>
+          </summary>
+          <div class="block lg:hidden bg-[#ccecf8] rounded-xl">
+            <ul class="list-disc text-start text-[#737480] text-sm p-4">
+              <li class="ml-8">中華民國植牙醫學會專科醫師</li>
+              <li class="ml-8">台北市牙科植體學會會員</li>
+              <li class="ml-8">中華民國口腔植體學會會員</li>
+              <li class="ml-8">台北醫學大學人工植牙碩士學分班進修</li>
+              <li class="ml-8">台灣牙周病醫學會會員</li>
+              <li class="ml-8">陽明大學牙醫學系學士</li>
+              <li class="ml-8">前高雄榮民總醫院牙科部醫師</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <div class="doctor-card">
+        <details>
+          <summary class="mb-4 lg:mb-0 ">
+            <div class="doctor-avatar">
+              <img src="../assets/2/images/doctor-04.webp" alt="朱庭緯 ">
+            </div>
+            <h2 class="doctor-name">朱庭緯 </h2>
+            <p
+              class="view-btn relative after:content-['▼'] lg:after:content-[''] after:absolute after:-bottom-4 after:text-[#ccecf8] after:left-1/2">
+              醫師學經歷
+            </p>
+          </summary>
+          <div class="detail-content block lg:hidden bg-[#ccecf8] rounded-xl">
+            <ul class="list-disc text-start text-[#737480] text-sm p-4">
+              <li>亞洲植牙醫學會專科醫師</li>
+              <li>嘉義長庚牙科部總醫師</li>
+              <li>紐約大學人工植牙專科研究醫師</li>
+              <li>雙和贋復專科訓練醫師</li>
+              <li>WLMC雷射專科醫師</li>
+              <li>北醫牙醫學士</li>
+              <li>Invisalign隱適美隱形牙套認證醫師</li>
+              <li>陽明大學解剖學碩士</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <div class="doctor-card">
+        <details>
+          <summary class="mb-4 lg:mb-0 ">
+            <div class="doctor-avatar">
+              <img src="../assets/2/images/doctor-04.webp" alt="楊昀琪">
+            </div>
+            <h2 class="doctor-name">楊昀琪</h2>
+            <p
+              class="view-btn relative after:content-['▼'] lg:after:content-[''] after:absolute after:-bottom-4 after:text-[#ccecf8] after:left-1/2">
+              醫師學經歷
+            </p>
+          </summary>
+          <div class="detail-content block lg:hidden bg-[#ccecf8] rounded-xl">
+            <ul class="list-disc text-start text-[#737480] text-sm p-4">
+              <li>台灣牙周病醫學會專科醫師</li>
+              <li>iADE進階牙周植牙認證醫師</li>
+              <li>水雷射治療認證醫師</li>
+              <li>台大醫院牙周病專科訓練醫師</li>
+              <li>台大牙醫學士</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <div class="doctor-card">
+        <details>
+          <summary class="mb-4 lg:mb-0 ">
+            <div class="doctor-avatar">
+              <img src="../assets/2/images/doctor-04.webp" alt="趙若智">
+            </div>
+            <h2 class="doctor-name">趙若智</h2>
+            <p
+              class="view-btn relative after:content-['▼'] lg:after:content-[''] after:absolute after:-bottom-4 after:text-[#ccecf8] after:left-1/2">
+              醫師學經歷
+            </p>
+          </summary>
+          <div class="detail-content block lg:hidden bg-[#ccecf8] rounded-xl">
+            <ul class="list-disc text-start text-[#737480] text-sm p-4">
+              <li>WLMC雷射專科醫師</li>
+              <li>北醫牙醫學士</li>
+              <li>美國加州大學洛杉磯分校(UCLA)一年期牙科植牙臨床課程</li>
+              <li>陽明大學解剖學碩士</li>
+              <li>中華民國口腔植體學會(AOIT)專科醫師</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <!-- 第二組醫生 (5-8) -->
+      <div class="doctor-card">
+        <details>
+          <summary class="mb-4 lg:mb-0 ">
+            <div class="doctor-avatar">
+              <img src="../assets/2/images/doctor-04.webp" alt="張玉苓">
+            </div>
+            <h2 class="doctor-name">張玉苓</h2>
+            <p
+              class="view-btn relative after:content-['▼'] lg:after:content-[''] after:absolute after:-bottom-4 after:text-[#ccecf8] after:left-1/2">
+              醫師學經歷
+            </p>
+          </summary>
+          <div class="detail-content block lg:hidden bg-[#ccecf8] rounded-xl">
+            <ul class="list-disc text-start text-[#737480] text-sm p-4">
+              <li>兒童牙科專科醫師</li>
+              <li>台灣兒童牙醫學會會員</li>
+              <li>台大兒童牙科部進修醫師</li>
+              <li>林口長庚醫院兒童牙科住院醫師</li>
+              <li>中山醫學大學牙醫學系學士</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <div class="doctor-card">
+        <details>
+          <summary class="mb-4 lg:mb-0 ">
+            <div class="doctor-avatar">
+              <img src="../assets/2/images/doctor-04.webp" alt="林曉華">
+            </div>
+            <h2 class="doctor-name">林曉華</h2>
+            <p
+              class="view-btn relative after:content-['▼'] lg:after:content-[''] after:absolute after:-bottom-4 after:text-[#ccecf8] after:left-1/2">
+              醫師學經歷
+            </p>
+          </summary>
+          <div class="detail-content block lg:hidden bg-[#ccecf8] rounded-xl">
+            <ul class="list-disc text-start text-[#737480] text-sm p-4">
+              <li>牙體復形美學專科醫師</li>
+              <li>3D齒雕專科醫師</li>
+              <li>數位全瓷假牙專科</li>
+              <li>台北榮總牙科部住院醫師</li>
+              <li>國防醫學院牙醫學系學士</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <div class="doctor-card">
+        <details>
+          <summary class="mb-4 lg:mb-0 ">
+            <div class="doctor-avatar">
+              <img src="../assets/2/images/doctor-04.webp" alt="王建凱">
+            </div>
+            <h2 class="doctor-name">王建凱</h2>
+            <p
+              class="view-btn relative after:content-['▼'] lg:after:content-[''] after:absolute after:-bottom-4 after:text-[#ccecf8] after:left-1/2">
+              醫師學經歷
+            </p>
+          </summary>
+          <div class="detail-content block lg:hidden bg-[#ccecf8] rounded-xl">
+            <ul class="list-disc text-start text-[#737480] text-sm p-4">
+              <li>中華民國植牙醫學會專科醫師</li>
+              <li>貝多芬隱形矯正認證醫師</li>
+              <li>美國哈佛大學牙科臨床進修</li>
+              <li>台大醫院口腔外科部總醫師</li>
+              <li>台大牙醫學士</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <div class="doctor-card">
+        <details>
+          <summary class="mb-4 lg:mb-0 ">
+            <div class="doctor-avatar">
+              <img src="../assets/2/images/doctor-04.webp" alt="陳思穎">
+            </div>
+            <h2 class="doctor-name">陳思穎</h2>
+            <p
+              class="view-btn relative after:content-['▼'] lg:after:content-[''] after:absolute after:-bottom-4 after:text-[#ccecf8] after:left-1/2">
+              醫師學經歷
+            </p>
+          </summary>
+          <div class="detail-content block lg:hidden bg-[#ccecf8] rounded-xl">
+            <ul class="list-disc text-start text-[#737480] text-sm p-4">
+              <li>牙周病專科醫師</li>
+              <li>顯微根管治療認證醫師</li>
+              <li>台灣牙周病醫學會會員</li>
+              <li>美國波士頓大學牙周病專科進修</li>
+              <li>高醫牙醫學系學士</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <!-- 第三組醫生 (9-12) -->
+      <div class="doctor-card">
+        <details>
+          <summary class="mb-4 lg:mb-0 ">
+            <div class="doctor-avatar">
+              <img src="../assets/2/images/doctor-04.webp" alt="李佶翰">
+            </div>
+            <h2 class="doctor-name">李佶翰</h2>
+            <p
+              class="view-btn relative after:content-['▼'] lg:after:content-[''] after:absolute after:-bottom-4 after:text-[#ccecf8] after:left-1/2">
+              醫師學經歷
+            </p>
+          </summary>
+          <div class="detail-content block lg:hidden bg-[#ccecf8] rounded-xl">
+            <ul class="list-disc text-start text-[#737480] text-sm p-4">
+              <li>台灣牙周病醫學會暨植牙專科醫師</li>
+              <li>台大醫院牙周病科臨床研究醫師</li>
+              <li>美國密西根大學牙醫學院訪問學者</li>
+              <li>台大牙醫學士</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <div class="doctor-card">
+        <details>
+          <summary class="mb-4 lg:mb-0 ">
+            <div class="doctor-avatar">
+              <img src="../assets/2/images/doctor-04.webp" alt="莫志中">
+            </div>
+            <h2 class="doctor-name">莫志中</h2>
+            <p
+              class="view-btn relative after:content-['▼'] lg:after:content-[''] after:absolute after:-bottom-4 after:text-[#ccecf8] after:left-1/2">
+              醫師學經歷
+            </p>
+          </summary>
+          <div class=" detail-contentblock lg:hidden bg-[#ccecf8] rounded-xl">
+            <ul class="list-disc text-start text-[#737480] text-sm p-4">
+              <li>台灣牙周病醫學會暨植牙專科醫師</li>
+              <li>台大醫院牙周病科臨床研究醫師</li>
+              <li>美國密西根大學牙醫學院訪問學者</li>
+              <li>台大牙醫學士</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const initDoctorDetails = () => {
+        const isPcScreen = window.matchMedia("(min-width: 769px)").matches;
+
+        if (isPcScreen) {
+          // 選取所有醫生卡片
+          const doctorCards = document.querySelectorAll('.doctor-card');
+          if (doctorCards.length === 0) return;
+
+          const doctorRow = document.querySelector('.doctor-row');
+
+          // 追蹤當前打開的醫生和詳情容器
+          let currentOpenDoctor = null;
+          let currentDetailsContainer = null;
+
+          // 為每個醫生卡片添加點擊事件
+          doctorCards.forEach(card => {
+            card.addEventListener('click', function () {
+              // 獲取詳情內容
+              const doctorDetails = this.querySelector('ul');
+              if (!doctorDetails) return;
+
+              // 如果點擊的是已經打開的醫生，則關閉詳情
+              if (currentOpenDoctor === this && currentDetailsContainer) {
+                currentDetailsContainer.classList.remove('active');
+                currentDetailsContainer.remove();
+                // setTimeout(() => {
+                  
+                // }, 300); // 等待過渡動畫完成
+                currentOpenDoctor = null;
+                currentDetailsContainer = null;
+                return;
+              }
+
+              // 移除現有的詳情容器
+              if (currentDetailsContainer) {
+                currentDetailsContainer.classList.remove('active');
+                currentDetailsContainer.remove();
+                // setTimeout(() => {
+                // }, 300); // 等待過渡動畫完成
+              }
+
+              // 設置當前開啟的醫生
+              currentOpenDoctor = this;
+
+              // 複製詳情內容
+              const cloneDoctorDetails = doctorDetails.cloneNode(true);
+              cloneDoctorDetails.className = 'grid grid-cols-2 gap-x-[150px] gap-y-1.5 list-disc text-start text-[#737480] text-sm p-4';
+
+              // 創建新的詳情容器
+              const detailsContainer = document.createElement('div');
+              detailsContainer.className = 'details-container col-span-4';
+              detailsContainer.appendChild(cloneDoctorDetails);
+
+              // 計算這張卡片屬於哪一組(每組4張)
+              const cardIndex = Array.from(doctorCards).indexOf(this);
+              const groupSize = 4;
+              const groupLastIndex = Math.floor(cardIndex / groupSize) * groupSize + (groupSize - 1);
+
+              // 找到這一組的最後一張卡片
+              const lastCardInGroup = groupLastIndex < doctorCards.length ?
+                doctorCards[groupLastIndex] :
+                doctorCards[doctorCards.length - 1];
+
+              // 在該組最後一張卡片後插入詳情容器
+              if (lastCardInGroup.nextElementSibling) {
+                doctorRow.insertBefore(detailsContainer, lastCardInGroup.nextElementSibling);
+              } else {
+                doctorRow.appendChild(detailsContainer);
+              }
+
+              // 設置當前詳情容器
+              currentDetailsContainer = detailsContainer;
+
+              // 稍微延遲添加active類，確保過渡效果正常
+              detailsContainer.classList.add('active');
+              // setTimeout(() => {
+              //   // 滾動到詳情區塊
+              //   detailsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              // }, 10);
+            });
+          });
+        }
+      };
+
+      // 頁面載入和視窗大小改變時初始化
+      window.addEventListener('load', initDoctorDetails);
+      window.addEventListener('resize', initDoctorDetails);
+
+  </script>
+  <!-- <script>
+    const initDoctorDetails = () => {
+        const isPcScreen = window.matchMedia("(min-width: 769px)").matches;
+
+        if (isPcScreen) {
+          // 一開始先清理所有現有的詳情容器
+          const existingContainers = document.querySelectorAll('.details-container');
+          existingContainers.forEach(container => container.remove());
+
+          // 選取所有醫生卡片
+          const doctorCards = document.querySelectorAll('.doctor-card');
+          if (doctorCards.length === 0) return;
+
+          const doctorRow = document.querySelector('.doctor-row');
+
+          // 追蹤當前打開的醫生和詳情容器
+          let currentOpenDoctor = null;
+          let currentDetailsContainer = null;
+          // 追蹤是否正在進行移除操作
+          let isRemoving = false;
+
+          // 建立一個函數來處理容器的移除
+          const removeDetailsContainer = (container, callback) => {
+            if (!container) return;
+
+            isRemoving = true;
+            container.classList.remove('active');
+
+            // 使用一個標志來確保回調只被調用一次
+            let callbackCalled = false;
+
+            // 設置一個監聽器來確認過渡效果完成
+            const transitionEndHandler = () => {
+              if (!callbackCalled) {
+                callbackCalled = true;
+                container.remove();
+                isRemoving = false;
+                if (callback) callback();
+              }
+            };
+
+            // 監聽過渡效果完成事件
+            container.addEventListener('transitionend', transitionEndHandler, { once: true });
+
+            // 設置一個備用計時器，以防過渡事件沒有觸發
+            setTimeout(() => {
+              if (!callbackCalled) {
+                callbackCalled = true;
+                container.remove();
+                isRemoving = false;
+                if (callback) callback();
+              }
+            }, 500);
+          };
+
+          // 為每個醫生卡片添加點擊事件
+          doctorCards.forEach(card => {
+            // 先移除現有的點擊事件（如果有的話）
+            const newCard = card.cloneNode(true);
+            card.parentNode.replaceChild(newCard, card);
+
+            newCard.addEventListener('click', function () {
+              // 如果正在進行移除操作，則忽略此次點擊
+              if (isRemoving) return;
+
+              // 獲取詳情內容
+              const doctorDetails = this.querySelector('ul, .hidden-details');
+              if (!doctorDetails) return;
+
+              // 如果點擊的是已經打開的醫生，則關閉詳情
+              if (currentOpenDoctor === this && currentDetailsContainer) {
+                removeDetailsContainer(currentDetailsContainer);
+                currentOpenDoctor = null;
+                currentDetailsContainer = null;
+                return;
+              }
+
+              // 如果有其他打開的詳情，先關閉它
+              if (currentDetailsContainer) {
+                removeDetailsContainer(currentDetailsContainer, () => {
+                  // 在前一個容器完全移除後，再創建新的容器
+                  createNewDetailsContainer(this, doctorDetails);
+                });
+              } else {
+                // 直接創建新的容器
+                createNewDetailsContainer(this, doctorDetails);
+              }
+            });
+          });
+
+          // 創建新的詳情容器的函數
+          function createNewDetailsContainer(doctorCard, doctorDetails) {
+            // 設置當前開啟的醫生
+            currentOpenDoctor = doctorCard;
+
+            // 複製詳情內容
+            const cloneDoctorDetails = doctorDetails.cloneNode(true);
+            cloneDoctorDetails.style.display = 'grid';
+            cloneDoctorDetails.className = 'grid grid-cols-2 gap-x-[150px] gap-y-1.5 list-disc text-start text-[#737480] text-sm p-4';
+
+            // 創建新的詳情容器
+            const detailsContainer = document.createElement('div');
+            detailsContainer.className = 'details-container col-span-4';
+            detailsContainer.appendChild(cloneDoctorDetails);
+
+            // 計算這張卡片屬於哪一組(每組4張)
+            const cardIndex = Array.from(document.querySelectorAll('.doctor-card')).indexOf(doctorCard);
+            const groupSize = 4;
+            const groupLastIndex = Math.floor(cardIndex / groupSize) * groupSize + (groupSize - 1);
+
+            // 找到這一組的最後一張卡片
+            const allCards = document.querySelectorAll('.doctor-card');
+            const lastCardInGroup = groupLastIndex < allCards.length ?
+              allCards[groupLastIndex] :
+              allCards[allCards.length - 1];
+
+            // 在該組最後一張卡片後插入詳情容器
+            if (lastCardInGroup.nextElementSibling) {
+              doctorRow.insertBefore(detailsContainer, lastCardInGroup.nextElementSibling);
+            } else {
+              doctorRow.appendChild(detailsContainer);
+            }
+
+            // 設置當前詳情容器
+            currentDetailsContainer = detailsContainer;
+
+            // 稍微延遲添加active類，確保過渡效果正常
+            // 使用 requestAnimationFrame 確保在下一幀渲染時添加 active 類
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                detailsContainer.classList.add('active');
+                // 滾動到詳情區塊
+                detailsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              });
+            });
+          }
+        }
+      };
+
+      // 頁面載入和視窗大小改變時初始化
+      document.addEventListener('DOMContentLoaded', initDoctorDetails);
+
+      // 使用防抖動來處理視窗調整大小時的重新初始化
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(initDoctorDetails, 250);
+      });
+  </script> -->
+</body>
+
+</html>
