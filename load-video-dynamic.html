@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>動態載入 YouTube 影片</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    #videoSwiperSection {
+      position: relative;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      padding: 20px 0;
+    }
+
+    .video-swiper__card {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: #000;
+    }
+
+    .video-swiper__card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .video-swiper__overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: var(--thumbnail-url);
+      background-size: cover;
+      background-position: center;
+      z-index: 2;
+      transition: opacity 0.3s ease;
+    }
+
+    .video-swiper__overlay::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 1;
+    }
+
+    .video-swiper__btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .video-swiper__btn:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .video-swiper__btn::before {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 20px solid #ff0000;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      margin-left: 4px;
+    }
+
+    .video-swiper__card iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .video-swiper__title {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+      color: white;
+      z-index: 3;
+    }
+
+    .video-swiper__title h3 {
+      font-size: 18px;
+      margin-bottom: 5px;
+      line-height: 1.3;
+    }
+
+    .video-swiper__title p {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    /* 手機版樣式 */
+    @media (max-width: 768px) {
+      .video-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .video-swiper__card {
+        height: 250px;
+      }
+
+      .video-swiper__btn {
+        width: 60px;
+        height: 60px;
+      }
+
+      .video-swiper__btn::before {
+        border-left-width: 15px;
+        border-top-width: 9px;
+        border-bottom-width: 9px;
+      }
+    }
+
+    /* 載入狀態 */
+    .loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 16px;
+      z-index: 4;
+      display: none;
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    /* 播放狀態指示 */
+    .video-swiper__card.playing .video-swiper__overlay,
+    .video-swiper__card.playing .video-swiper__btn {
+      display: none;
+    }
+
+    .video-swiper__card.playing iframe {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>動態載入 YouTube 影片範例</h1>
+
+    <section id="videoSwiperSection">
+      <div class="video-grid">
+        <!-- 影片卡片 1 -->
+        <div class="video-swiper__card" data-video-id="M7lc1UVf-VE">
+          <div class="video-swiper__overlay"
+            style="--thumbnail-url: url('https://img.youtube.com/vi/M7lc1UVf-VE/maxresdefault.jpg');"></div>
+          <div class="video-swiper__btn"></div>
+          <div class="loading">載入中...</div>
+          <div class="video-swiper__title">
+            <h3>BigBuckBunny 測試影片</h3>
+            <p>開源測試影片 • 點擊播放</p>
+          </div>
+        </div>
+
+        <!-- 影片卡片 2 -->
+        <div class="video-swiper__card" data-video-id="YE7VzlLtp-4">
+          <div class="video-swiper__overlay"
+            style="--thumbnail-url: url('https://img.youtube.com/vi/YE7VzlLtp-4/maxresdefault.jpg');"></div>
+          <div class="video-swiper__btn"></div>
+          <div class="loading">載入中...</div>
+          <div class="video-swiper__title">
+            <h3>Big Buck Bunny 60fps</h3>
+            <p>高畫質測試影片 • 點擊播放</p>
+          </div>
+        </div>
+
+        <!-- 影片卡片 3 -->
+        <div class="video-swiper__card" data-video-id="ScMzIvxBSi4">
+          <div class="video-swiper__overlay"
+            style="--thumbnail-url: url('https://img.youtube.com/vi/ScMzIvxBSi4/maxresdefault.jpg');"></div>
+          <div class="video-swiper__btn"></div>
+          <div class="loading">載入中...</div>
+          <div class="video-swiper__title">
+            <h3>Caminandes 測試短片</h3>
+            <p>開源動畫短片 • 點擊播放</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 您的 YouTube 播放器腳本 -->
+  <script>
+    // 播放器影片的物件，用來儲存所有創建的播放器
+    const players = {};
+
+    // 載入 YouTube IFrame API
+    function loadYouTubeAPI() {
+      const videoSwiperSection = document.querySelector('#videoSwiperSection');
+      if (!videoSwiperSection) return console.log('未找到 #videoSwiperSection 元素');
+
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
+
+    // API 準備就緒時會自動調用
+    function onYouTubeIframeAPIReady() {
+      console.log('YouTube API 已載入完成');
+      // 只初始化點擊事件，不創建播放器
+      initVideoClickEvents();
+    }
+
+    // 初始化影片卡片的點擊事件（不創建 iframe）
+    function initVideoClickEvents() {
+      const videoCards = document.querySelectorAll('.video-swiper__card');
+
+      if (videoCards.length === 0) return console.log('未找到任何影片卡片');
+
+      videoCards.forEach(card => {
+        const videoId = card.dataset.videoId;
+
+        // 為卡片添加點擊事件
+        card.addEventListener('click', function (event) {
+          const card = event.currentTarget;
+          console.log('點擊了影片卡片 currentTarget :', card, '影片 ID:', videoId);
+
+          // 顯示載入狀態
+          const loadingEl = card.querySelector('.loading');
+          if (loadingEl) loadingEl.classList.add('show');
+
+          // 檢查是否已經創建過播放器
+          if (!players[videoId]) {
+            // 第一次點擊：創建播放器容器和 iframe
+            createPlayerOnDemand(card, videoId);
+          } else {
+            // 已創建播放器：直接播放
+            playExistingPlayer(card, videoId);
+          }
+        });
+      });
+    }
+
+    // 按需創建播放器（點擊時才創建）
+    function createPlayerOnDemand(card, videoId) {
+      // 暫停所有其他播放器
+      pauseAllPlayers();
+
+      // 檢查是否為手機
+      const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
+      console.log('當前螢幕寬度小於 768px:', isSmallScreen);
+
+      // 創建播放器容器
+      const playerContainer = document.createElement('div');
+      playerContainer.id = `player-${videoId}`;
+      playerContainer.style.cssText = `transition: opacity 0.3s ease;`;
+
+      // 將容器添加到卡片中
+      card.appendChild(playerContainer);
+
+      // 創建 YouTube 播放器
+      players[videoId] = new YT.Player(playerContainer.id, {
+        height: '100%',
+        width: '100%',
+        videoId: videoId,
+        playerVars: {
+          'autoplay': isSmallScreen ? 0 : 1, // 手機版不自動播放（某些瀏覽器限制）
+          'controls': 1, // 顯示控制項
+          'rel': 0, // 不顯示相關影片
+          'playsinline': 1, // 重要：在 iOS 設備上內嵌播放而非全屏
+          'fs': 1, // 顯示全屏按鈕
+        },
+        events: {
+          'onReady': function (event) {
+            // 播放器準備好後顯示並播放
+            hideOverlayAndPlay(card, playerContainer);
+
+            // 手機版需要手動觸發播放
+            if (isSmallScreen) {
+              // 稍微延遲以確保播放器完全載入
+              setTimeout(() => {
+                event.target.playVideo();
+              }, 100);
+            }
+          },
+          'onStateChange': onPlayerStateChange,
+          'onError': function (event) {
+            console.log('播放器錯誤:', event.data);
+            // 隱藏載入狀態
+            const loadingEl = card.querySelector('.loading');
+            if (loadingEl) loadingEl.classList.remove('show');
+          }
+        }
+      });
+    }
+
+    // 播放已存在的播放器
+    function playExistingPlayer(card, videoId) {
+      // 暫停所有其他播放器
+      pauseAllPlayers();
+
+      // 隱藏載入狀態
+      const loadingEl = card.querySelector('.loading');
+      if (loadingEl) loadingEl.classList.remove('show');
+
+      // 隱藏遮罩並播放
+      const videoOverlay = card.querySelector('.video-swiper__overlay');
+      const videoBtn = card.querySelector('.video-swiper__btn');
+      const iframe = card.querySelector('iframe');
+
+      if (videoOverlay) videoOverlay.style.display = 'none';
+      if (videoBtn) videoBtn.style.display = 'none';
+      if (iframe) iframe.style.opacity = '1';
+
+      // 添加播放狀態
+      card.classList.add('playing');
+
+      // 播放影片
+      if (players[videoId] && typeof players[videoId].playVideo === 'function') {
+        players[videoId].playVideo();
+      }
+    }
+
+    // 隱藏遮罩並顯示播放器
+    function hideOverlayAndPlay(card, playerContainer) {
+      const videoOverlay = card.querySelector('.video-swiper__overlay');
+      const videoBtn = card.querySelector('.video-swiper__btn');
+      const loadingEl = card.querySelector('.loading');
+
+      if (videoOverlay) videoOverlay.style.display = 'none';
+      if (videoBtn) videoBtn.style.display = 'none';
+      if (loadingEl) loadingEl.classList.remove('show');
+
+      // 顯示 iframe
+      playerContainer.style.opacity = '1';
+
+      // 添加播放狀態
+      card.classList.add('playing');
+    }
+
+    // 播放器狀態改變時的回調
+    function onPlayerStateChange(event) {
+      const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
+      const iframeGroup = document.querySelectorAll('.video-swiper__card iframe');
+
+      switch (event.data) {
+        case YT.PlayerState.PLAYING:
+          console.log('播放器播放中');
+          iframeGroup.forEach(iframe => {
+            iframe.style.pointerEvents = 'auto';
+          });
+          break;
+
+        case YT.PlayerState.PAUSED:
+          console.log('播放器暫停');
+          // 暫停時不需要暫停所有播放器，避免干擾用戶操作
+          iframeGroup.forEach(iframe => {
+            iframe.style.pointerEvents = 'none';
+          });
+          break;
+
+        case YT.PlayerState.ENDED:
+          console.log('播放結束');
+          // 影片結束時可以選擇重新顯示縮圖
+          resetVideoCard(event.target);
+          break;
+
+        default:
+          console.log('播放器狀態:', event.data);
+          break;
+      }
+    }
+
+    // 重置影片卡片（影片結束時調用）
+    function resetVideoCard(player) {
+      // 找到對應的卡片
+      const iframe = player.getIframe();
+      const card = iframe.closest('.video-swiper__card');
+
+      if (card) {
+        const videoOverlay = card.querySelector('.video-swiper__overlay');
+        const videoBtn = card.querySelector('.video-swiper__btn');
+
+        // 移除播放狀態
+        card.classList.remove('playing');
+
+        // 重新顯示縮圖和播放按鈕
+        if (videoOverlay) videoOverlay.style.display = 'block';
+        if (videoBtn) videoBtn.style.display = 'block';
+        if (iframe) iframe.style.opacity = '0';
+      }
+    }
+
+    // 暫停所有播放器
+    function pauseAllPlayers() {
+      Object.values(players).forEach(player => {
+        if (player && typeof player.pauseVideo === 'function') {
+          player.pauseVideo();
+        }
+      });
+
+      // 重置所有卡片狀態
+      document.querySelectorAll('.video-swiper__card').forEach(card => {
+        card.classList.remove('playing');
+      });
+    }
+
+    // 可選：提供手動清理功能
+    function destroyPlayer(videoId) {
+      if (players[videoId]) {
+        players[videoId].destroy();
+        delete players[videoId];
+      }
+    }
+
+    // 可選：清理所有播放器
+    function destroyAllPlayers() {
+      Object.keys(players).forEach(videoId => {
+        destroyPlayer(videoId);
+      });
+    }
+
+    // 頁面載入完成後初始化
+    document.addEventListener('DOMContentLoaded', function () {
+      loadYouTubeAPI();
+    });
+  </script>
+</body>
+
+</html>
