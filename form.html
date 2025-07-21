@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>聯絡我們 - 表單範例</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f8f9fa;
+      scroll-padding-top: 80px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .contact__header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 40px 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 10px;
+    }
+
+    #contact__title {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .contact__subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    .main-content {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .contact__form-section {
+      flex: 2;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact__aside {
+      flex: 1;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #Overview {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #555;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .checkbox-group,
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding: 15px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+    }
+
+    .checkbox-item,
+    .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checkbox-item input[type="checkbox"],
+    .radio-item input[type="radio"] {
+      width: auto;
+      margin: 0;
+    }
+
+    .submit-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .error-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #f15e6c;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .input-error {
+      border-color: #f15e6c !important;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    #Reply {
+      background: white;
+      padding: 60px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      margin: 40px 0;
+    }
+
+    .contact__intro-title {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .contact__intro-subtitle {
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      background: #28a745;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .error-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      background: #dc3545;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .countdown {
+      font-weight: bold;
+      color: #667eea;
+      font-size: 1.2em;
+    }
+
+    .additional-sections {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .section-card {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-card h3 {
+      color: #667eea;
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+    }
+
+    /* Form state styles */
+    #contactUs[data-state="submitting"] .submit-btn {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    #contactUs[data-state="submitting"] .submit-btn::after {
+      content: " 送出中...";
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        flex-direction: column;
+      }
+
+      .container {
+        padding: 10px;
+      }
+
+      #contact__title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header Section -->
+    <div class="contact__header">
+      <h1 id="contact__title">聯絡我們</h1>
+      <p class="contact__subtitle">我們期待與您的合作機會</p>
+    </div>
+
+    <!-- Overview Section -->
+    <div id="Overview">
+      <h2>服務概覽</h2>
+      <p>我們提供專業的醫療設備和服務，包括診所合作、品牌合作以及業務經銷等多元化合作模式。請填寫下方表單，我們將盡快與您聯繫。</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Form Section -->
+      <div class="contact__form-section">
+        <form id="contactUs" method="POST" action="/api/contact" data-state="idle">
+          <h3>診所合作聯繫</h3>
+
+          <div class="form-group">
+            <label>合作服務項目 *</label>
+            <div class="checkbox-group">
+              <div class="checkbox-item">
+                <input type="checkbox" name="contact_services[]" value="設備租賃" id="service1">
+                <label for="service1">設備租賃</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" name="contact_services[]" value="技術支援" id="service2">
+                <label for="service2">技術支援</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" name="contact_services[]" value="教育訓練" id="service3">
+                <label for="service3">教育訓練</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="contact_company">診所名稱 *</label>
+            <input type="text" id="contact_company" name="contact_company" placeholder="請輸入診所名稱">
+          </div>
+
+          <div class="form-group">
+            <label for="contact_company_phone">診所電話 *</label>
+            <input type="text" id="contact_company_phone" name="contact_company_phone" placeholder="例：02-12345678">
+          </div>
+
+          <div class="form-group">
+            <label for="contact_your_name">聯絡人姓名 *</label>
+            <input type="text" id="contact_your_name" name="contact_your_name" placeholder="請輸入您的姓名">
+          </div>
+
+          <div class="form-group">
+            <label for="textarea_label">其他需求</label>
+            <textarea id="textarea_label" name="contact_message" rows="4" placeholder="請描述您的其他需求或問題"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="antispam">驗證碼 *</label>
+            <input type="text" id="antispam" name="antispam" placeholder="請輸入 1234" maxlength="4">
+            <small style="color: #666; margin-top: 5px; display: block;">請輸入：1234</small>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="submit-btn">送出表單</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Aside Section -->
+      <div class="contact__aside">
+        <h3>聯絡資訊</h3>
+        <div style="margin-top: 20px;">
+          <p><strong>電話：</strong>02-1234-5678</p>
+          <p><strong>Email：</strong>info@example.com</p>
+          <p><strong>地址：</strong>台北市信義區信義路五段7號</p>
+          <p><strong>營業時間：</strong>週一至週五 9:00-18:00</p>
+        </div>
+
+        <div style="margin-top: 30px;">
+          <h4>為什麼選擇我們？</h4>
+          <ul style="margin-top: 15px; padding-left: 20px;">
+            <li>專業的技術團隊</li>
+            <li>完整的售後服務</li>
+            <li>彈性的合作方案</li>
+            <li>豐富的業界經驗</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Sections -->
+    <div class="additional-sections">
+      <div id="videoSwiperSection" class="section-card">
+        <h3>產品展示</h3>
+        <p>觀看我們的產品介紹影片，了解最新的醫療設備技術和應用案例。</p>
+      </div>
+
+      <div id="interviewSwiperSection" class="section-card">
+        <h3>客戶見證</h3>
+        <p>聽聽我們合作夥伴的真實分享，了解他們如何透過我們的服務提升診所營運效率。</p>
+      </div>
+
+      <div id="statsSection" class="section-card">
+        <h3>服務數據</h3>
+        <p>已服務超過 500+ 診所，設備妥善率達 99.5%，客戶滿意度 98% 以上。</p>
+      </div>
+    </div>
+
+    <!-- Reply Section (Hidden by default) -->
+    <div id="Reply" class="hidden">
+      <!-- Success Message -->
+      <div id="ReplySuccess" class="hidden">
+        <div class="success-icon">
+          <svg width="40" height="40" fill="white" viewBox="0 0 24 24">
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+          </svg>
+        </div>
+        <h2 class="contact__intro-title">表單送出成功！</h2>
+        <p class="contact__intro-subtitle">Thank you! We'll get back to you soon.</p>
+        <p>我們已收到您的訊息，將在 <span id="countdown" class="countdown">3</span> 秒後返回上一頁。</p>
+      </div>
+
+      <!-- Error Message -->
+      <div id="ReplyError" class="hidden">
+        <div class="error-icon">
+          <svg width="40" height="40" fill="white" viewBox="0 0 24 24">
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+          </svg>
+        </div>
+        <h2 class="contact__intro-title">送出失敗</h2>
+        <p class="contact__intro-subtitle">Oops! Something went wrong.</p>
+        <p class="contact__intro-text">請檢查網路連線後重新送出。</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Helper function
+    function qs(selector) {
+      return document.querySelector(selector);
+    }
+
+    // 表單頁配置
+    const CONFIG = {
+      SELECTORS: {
+        FORM: '#contactUs',
+        CONTACT_TITLE: '#contact__title',
+        CONTACT_HEADER: '.contact__header',
+        COUNTDOWN: '#countdown',
+        OVERVIEW: '#Overview',
+        ASIDE: '.contact__aside',
+        REPLY: '#Reply',
+        REPLY_SUCCESS: '#ReplySuccess',
+        REPLY_ERROR: '#ReplyError',
+      },
+      REDIRECT_DELAY: 3000,
+    };
+
+    // 表單狀態管理
+    const FormState = {
+      IDLE: 'idle',
+      SUBMITTING: 'submitting',
+      SUCCESS: 'success',
+      ERROR: 'error',
+      CAPTCHA_ERROR: 'captcha_error',
+    };
+
+    // 模擬 API 回應
+    async function submitForm(form) {
+      return new Promise((resolve, reject) => {
+        const formData = new FormData(form);
+
+        // 模擬提交延遲
+        setTimeout(() => {
+          const antispam = formData.get('antispam');
+
+          // 模擬驗證碼驗證
+          if (antispam !== '1234') {
+            reject(new Error('驗證碼錯誤'));
+            return;
+          }
+
+          // 模擬成功回應
+          resolve({
+            status: 200,
+            message: '表單提交成功'
+          });
+        }, 1000);
+      });
+    }
+
+    // 表單處理
+    async function handleFormSubmit(e) {
+      const form = e.target;
+
+      scrollToElement(CONFIG.SELECTORS.CONTACT_TITLE);
+      updateFormState(FormState.SUBMITTING);
+
+      try {
+        const response = await submitForm(form);
+        console.log('response', response);
+
+        if (response.status >= 200 && response.status < 300) {
+          console.log('傳送成功', response.message);
+          updateFormState(FormState.SUCCESS);
+          await animateSuccess();
+          startRedirectCountdown(CONFIG.REDIRECT_DELAY, 'countdown', redirectToReferrer);
+        } else {
+          throw new Error(response.message || '傳送失敗');
+        }
+
+      } catch (error) {
+        console.error('傳送錯誤', error);
+
+        if (error.message === '驗證碼錯誤') {
+          updateUIForState(FormState.CAPTCHA_ERROR);
+          await animateCaptchaError();
+          startRedirectCountdown(CONFIG.REDIRECT_DELAY, 'captchaCountdown', showFormAfterError);
+        } else {
+          updateFormState(FormState.ERROR);
+          await animateError();
+        }
+      }
+    }
+
+    // 更新表單狀態
+    function updateFormState(state) {
+      const form = qs(CONFIG.SELECTORS.FORM);
+      form.dataset.state = state;
+      updateUIForState(state);
+    }
+
+    // 切換元素的顯示狀態
+    function toggleElement(element, show) {
+      if (!element) return;
+      show ? element.classList.remove('hidden') : element.classList.add('hidden');
+    }
+
+    // 隱藏內容區域
+    function hideContentAreas(elements) {
+      toggleElement(elements.contactHeader, false);
+      toggleElement(elements.overview, false);
+      toggleElement(elements.aside, false);
+      toggleElement(elements.videoSwiper, false);
+      toggleElement(elements.interview, false);
+      toggleElement(elements.stats, false);
+    }
+
+    // 顯示內容區域
+    function showContentAreas(elements) {
+      toggleElement(elements.contactHeader, true);
+      toggleElement(elements.overview, true);
+      toggleElement(elements.aside, true);
+      toggleElement(elements.videoSwiper, true);
+      toggleElement(elements.interview, true);
+      toggleElement(elements.stats, true);
+    }
+
+    // 根據狀態更新 UI
+    function updateUIForState(state) {
+      const elements = {
+        form: qs(CONFIG.SELECTORS.FORM),
+        reply: qs(CONFIG.SELECTORS.REPLY),
+        success: qs(CONFIG.SELECTORS.REPLY_SUCCESS),
+        error: qs(CONFIG.SELECTORS.REPLY_ERROR),
+        overview: qs(CONFIG.SELECTORS.OVERVIEW),
+        contactHeader: qs(CONFIG.SELECTORS.CONTACT_HEADER),
+        aside: qs(CONFIG.SELECTORS.ASIDE),
+        videoSwiper: qs('#videoSwiperSection'),
+        interview: qs('#interviewSwiperSection'),
+        stats: qs('#statsSection'),
+        contactIntroText: qs('#ReplyError .contact__intro-text'),
+      };
+
+      if (!elements.reply) return;
+
+      switch (state) {
+        case FormState.SUCCESS:
+          toggleElement(elements.form, false);
+          toggleElement(elements.reply, true);
+          toggleElement(elements.success, true);
+          toggleElement(elements.error, false);
+          hideContentAreas(elements);
+          break;
+
+        case FormState.ERROR:
+          toggleElement(elements.form, false);
+          toggleElement(elements.reply, true);
+          toggleElement(elements.success, false);
+          toggleElement(elements.error, true);
+          hideContentAreas(elements);
+          toggleElement(elements.contactIntroText, false);
+          break;
+
+        case FormState.CAPTCHA_ERROR:
+          toggleElement(elements.form, false);
+          toggleElement(elements.reply, true);
+          toggleElement(elements.success, false);
+          toggleElement(elements.error, true);
+          hideContentAreas(elements);
+          showCaptchaErrorMessage();
+          break;
+
+        default:
+          toggleElement(elements.reply, false);
+          toggleElement(elements.success, false);
+          toggleElement(elements.error, false);
+          showContentAreas(elements);
+          break;
+      }
+    }
+
+    // 動畫處理函數
+    async function animateCaptchaError() {
+      return new Promise((resolve) => {
+        requestAnimationFrame(() => {
+          updateUIForState(FormState.CAPTCHA_ERROR);
+          resolve();
+        });
+      });
+    }
+
+    async function animateSuccess() {
+      return new Promise((resolve) => {
+        requestAnimationFrame(() => {
+          updateUIForState(FormState.SUCCESS);
+          resolve();
+        });
+      });
+    }
+
+    async function animateError() {
+      return new Promise((resolve) => {
+        requestAnimationFrame(() => {
+          updateUIForState(FormState.ERROR);
+          resolve();
+        });
+      });
+    }
+
+    // 顯示驗證碼錯誤訊息
+    function showCaptchaErrorMessage() {
+      const errorElement = qs(CONFIG.SELECTORS.REPLY_ERROR);
+      const titleElement = errorElement.querySelector('.contact__intro-title');
+      const subtitleElement = errorElement.querySelector('.contact__intro-subtitle');
+
+      if (titleElement && subtitleElement) {
+        titleElement.textContent = '驗證碼錯誤，請重新輸入';
+        subtitleElement.textContent = 'Oops! Please try again to prove you\'re not a robot.';
+      }
+    }
+
+    // 顯示錯誤後重新顯示表單
+    function showFormAfterError() {
+      const elements = {
+        form: qs(CONFIG.SELECTORS.FORM),
+        reply: qs(CONFIG.SELECTORS.REPLY),
+        error: qs(CONFIG.SELECTORS.REPLY_ERROR),
+        overview: qs(CONFIG.SELECTORS.OVERVIEW),
+        contactHeader: qs(CONFIG.SELECTORS.CONTACT_HEADER),
+        aside: qs(CONFIG.SELECTORS.ASIDE),
+        videoSwiper: qs('#videoSwiperSection'),
+        interview: qs('#interviewSwiperSection'),
+        stats: qs('#statsSection')
+      };
+
+      toggleElement(elements.reply, false);
+      toggleElement(elements.success, false);
+      toggleElement(elements.error, false);
+      showContentAreas(elements);
+      toggleElement(elements.form, true);
+
+      const antispamField = $('#antispam');
+      if (antispamField.length) {
+        antispamField.val('');
+        scrollToElement('#textarea_label');
+      }
+
+      setTimeout(() => {
+        const form = qs(CONFIG.SELECTORS.FORM);
+        if (!form) return;
+
+        const validator = $(form).data('validator');
+        if (validator) {
+          validator.settings.messages.antispam = '請重新輸入正確的驗證碼';
+          validator.element('#antispam');
+        }
+      }, 100);
+    }
+
+    // 開始重定向倒計時
+    function startRedirectCountdown(delay, elementId, callback) {
+      const countdownElement = document.getElementById(elementId);
+      if (!countdownElement) {
+        console.error(`找不到 ID 為 ${elementId} 的元素`);
+        return;
+      }
+
+      const startTime = performance.now();
+      const endTime = startTime + delay;
+
+      function updateCountdown(currentTime) {
+        const timeLeft = Math.max(0, Math.ceil((endTime - currentTime) / 1000));
+        countdownElement.textContent = timeLeft;
+
+        if (currentTime < endTime) {
+          requestAnimationFrame(updateCountdown);
+        } else {
+          if (typeof callback === 'function') {
+            callback();
+          }
+        }
+      }
+
+      requestAnimationFrame(updateCountdown);
+    }
+
+    // 重定向
+    function redirectToReferrer() {
+      if (document.referrer) {
+        window.location.href = document.referrer;
+      } else {
+        window.location.reload();
+      }
+    }
+
+    // 滑到指定元素
+    function scrollToElement(selector) {
+      const element = $(selector);
+      if (element.length) {
+        const scrollPadding = parseInt(getComputedStyle(document.documentElement).getPropertyValue('scroll-padding-top')) || 0;
+        $('html, body').animate({
+          scrollTop: element.offset().top - scrollPadding,
+        }, 100, 'linear');
+      } else {
+        $('html, body').animate({ scrollTop: 0 }, 100, 'linear');
+      }
+    }
+
+    // 表單初始化
+    function initializeForm() {
+      const form = qs(CONFIG.SELECTORS.FORM);
+      if (form) {
+        initializeFormValidation();
+      }
+    }
+
+    // 初始化表單驗證
+    function initializeFormValidation() {
+      const $form = $(CONFIG.SELECTORS.FORM);
+      if (!$form.length) return;
+
+      $form.validate({
+        submitHandler: function (form, event) {
+          event.preventDefault();
+          handleFormSubmit(event);
+        },
+        rules: {
+          'contact_services[]': {
+            checkboxGroup: "input[name='contact_services[]']",
+          },
+          contact_company: 'required',
+          contact_company_phone: {
+            required: true,
+            companyPhone: true,
+          },
+          contact_your_name: 'required',
+          antispam: 'required',
+        },
+        messages: {
+          'contact_services[]': {
+            checkboxGroup: '請至少勾選一個項目',
+          },
+          contact_company: '請輸入您的診所名稱',
+          contact_company_phone: {
+            required: '請輸入診所電話',
+            companyPhone: '請確認電話號碼格式為數字',
+          },
+          contact_your_name: '請輸入您的姓名',
+          antispam: '請輸入驗證碼',
+        },
+        errorElement: 'div',
+        errorPlacement: customErrorPlacement,
+        highlight: customHighlight,
+        unhighlight: customUnhighlight,
+        invalidHandler: function (event, validator) {
+          if (validator.errorList.length > 0) {
+            let firstError = $(validator.errorList[0].element);
+            const scrollPadding = parseInt(getComputedStyle(document.documentElement).getPropertyValue('scroll-padding-top')) || 0;
+            const targetPosition = firstError.offset().top - scrollPadding - $(window).height() / 6;
+            $('html, body').animate({ scrollTop: targetPosition }, 100, 'linear');
+          }
+        },
+      });
+
+      addCustomValidationMethods();
+    }
+
+    // 自定義錯誤訊息放置
+    function customErrorPlacement(error, element) {
+      if (element.attr('type') === 'checkbox' || element.attr('type') === 'radio') {
+        const group = element.closest('.checkbox-group, .radio-group');
+        const errorContainer = getOrCreateErrorContainer(group);
+        errorContainer.html('').append(createErrorIcon()).append(error);
+        error.addClass(element.attr('type') + '-error');
+      } else {
+        const errorContainer = getOrCreateErrorContainer(element);
+        errorContainer.html('').append(createErrorIcon()).append(error);
+      }
+    }
+
+    // 取得或創建錯誤訊息容器
+    function getOrCreateErrorContainer(element) {
+      let errorContainer = element.next('.error-container');
+      if (!errorContainer.length) {
+        errorContainer = $('<div class="error-container"></div>');
+        errorContainer.insertAfter(element);
+      }
+      return errorContainer;
+    }
+
+    // 創建錯誤訊息 icon
+    function createErrorIcon() {
+      return $(`<svg role="img" fill="#f15e6c" width="16px" height="16px" viewBox="0 0 16 16">
+                <path d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"></path>
+                <path d="M7.25 9V4h1.5v5h-1.5zm0 3.026v-1.5h1.5v1.5h-1.5z"></path>
+            </svg>`);
+    }
+
+    // 自定義加上錯誤樣式
+    function customHighlight(element) {
+      const $element = $(element);
+      if ($element.attr('type') === 'checkbox' || $element.attr('type') === 'radio') {
+        const group = $element.closest('.checkbox-group, .radio-group');
+        group.addClass('input-error');
+        group.next('.error-container').show();
+      } else {
+        $element.addClass('input-error');
+        $element.next('.error-container').show();
+      }
+    }
+
+    // 自定義移除錯誤樣式
+    function customUnhighlight(element) {
+      const $element = $(element);
+      if ($element.attr('type') === 'checkbox' || $element.attr('type') === 'radio') {
+        const group = $element.closest('.checkbox-group, .radio-group');
+        group.removeClass('input-error');
+        group.next('.error-container').hide();
+      } else {
+        $element.removeClass('input-error');
+        $element.next('.error-container').hide();
+      }
+    }
+
+    // 添加自定義驗證方法
+    function addCustomValidationMethods() {
+      $.validator.addMethod(
+        'companyPhone',
+        function (value, element) {
+          return this.optional(element) || /^0[0-9-+*#,;]+$/.test(value);
+        },
+        '請確認電話號碼格式為數字'
+      );
+
+      $.validator.addMethod(
+        'cellPhone',
+        function (value, element) {
+          return this.optional(element) || /^09\d{8}$/.test(value);
+        },
+        '請確認手機格式為：09XXXXXXXX'
+      );
+
+      $.validator.addMethod(
+        'checkboxGroup',
+        function (value, element, param) {
+          return $(param + ':checked').length > 0;
+        },
+        '請至少選擇一個選項'
+      );
+    }
+
+    // 當頁面載入完成後初始化表單
+    $(document).ready(function () {
+      initializeForm();
+    });
+  </script>
+</body>
+
+</html>
